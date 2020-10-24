@@ -25,6 +25,10 @@ export const NavWrapper = styled.nav`
   width: 100%;
   background-color: ${({ theme }) => theme.white};
   border-bottom: 2px solid ${({ theme }) => theme.secondary};
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px 10px;
 `;
 
 export const NavList = styled.ul`
@@ -32,9 +36,8 @@ export const NavList = styled.ul`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 10px;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 0;
 
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
     justify-content: flex-end;

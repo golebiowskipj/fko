@@ -13,7 +13,7 @@ export const labels = {
   repeatPassword: "Powtórz hasło",
   reservations: "Rezerwacje",
   reserveSpot: "Zapisz mnie",
-  selectTrainingDay: "Wybierz dzień treningu",
+  selectTrainingDay: "Wybierz dzień",
   selectTraining: "Wybierz trening",
   signInToReservSpot: "Zaloguj się, żeby zarezerwować miejsce",
   signIn: "Zaloguj się",

@@ -1,7 +1,15 @@
 import React from "react";
 
-export const TrainingButton = ({ training, onClick }) => (
-  <button value={training.value} onClick={onClick}>
-    {training.name}
-  </button>
-);
+import { AppPickerButton } from "../appPickerButton";
+
+export const TrainingButton = ({ onClick, isActive = false, training }) => {
+  return (
+    <AppPickerButton
+      isActive={isActive}
+      value={training.value}
+      onClick={onClick}
+    >
+      {training.name}
+    </AppPickerButton>
+  );
+};

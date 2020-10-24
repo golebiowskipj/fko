@@ -3,11 +3,17 @@ import React, { useState, useEffect, useContext } from "react";
 import { AppDatePicker } from "../../components/appDatePicker";
 import { AppTrainingPicker } from "../../components/appTrainingPicker";
 import { CounterDisplay } from "../../components/counterDisplay";
+import { Logo } from "../../components/logo";
 
 import { FirebaseContext } from "../../firebase/";
 
 import { labels } from "../../configs/labels";
-import { initialTrainingSelected } from "../../configs/initialValues";
+import {
+  initialTrainingSelected,
+  initialTrainings,
+} from "../../configs/initialValues";
+
+import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 
 export const LandingPage = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -15,7 +21,7 @@ export const LandingPage = () => {
     initialTrainingSelected
   );
   const [availablePlaces, setAvailablePlaces] = useState(null);
-  const [trainings, setTrainings] = useState([]);
+  const [trainings, setTrainings] = useState(initialTrainings);
   const firebaseContext = useContext(FirebaseContext);
 
   useEffect(() => {
@@ -51,19 +57,25 @@ export const LandingPage = () => {
   };
 
   return (
-    <div>
-      <AppDatePicker
-        selected={selectedDay}
-        onChange={handleDateChange}
-        headerLabel={labels.selectTrainingDay}
-      />
-      <AppTrainingPicker
-        headerLabel={labels.selectTraining}
-        trainings={trainings}
-        handleTrainingChange={handleTrainingChange}
-      />
-      <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
-      <p>{labels.signInToReservSpot}</p>
-    </div>
+    <Wrapper>
+      <WrapperColLeft>
+        <Logo />
+      </WrapperColLeft>
+      <WrapperColRight>
+        <AppDatePicker
+          selected={selectedDay}
+          onChange={handleDateChange}
+          headerLabel={labels.selectTrainingDay}
+        />
+        <AppTrainingPicker
+          handleTrainingChange={handleTrainingChange}
+          headerLabel={labels.selectTraining}
+          selectedTraining={selectedTraining}
+          trainings={trainings}
+        />
+        <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
+        <p>{labels.signInToReservSpot}</p>
+      </WrapperColRight>
+    </Wrapper>
   );
 };

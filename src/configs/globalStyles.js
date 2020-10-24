@@ -12,6 +12,6 @@ export const GlobalStyle = createGlobalStyle`
     body {
         font-family: ${theme.fontFamily}, Open-Sans, Helvetica, Sans-Serif;
         font-size: ${theme.fontM};
-        color: ${theme.secondary}
+        color: ${theme.secondary};
     }
 `;

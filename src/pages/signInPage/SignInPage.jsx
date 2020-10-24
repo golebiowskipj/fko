@@ -4,14 +4,13 @@ import { useHistory } from "react-router-dom";
 
 import { AppForm } from "../../components/appForm";
 import { AppFormField } from "../../components/appFormField";
-import { Logo } from "../../components/logo";
 import { SubmitButton } from "../../components/submitButton";
 
 import { FirebaseContext } from "../../firebase";
 import { HOME, SIGN_UP } from "../../configs/routes";
 import { labels } from "../../configs/labels";
 
-import { RegisterLink, RegisterWrapper, SignInPageWrapper } from "./styled";
+import { RegisterLink, RegisterWrapper } from "./styled";
 import { SignInSignUpTemplate } from "../../templates/signInSignUpTemplate";
 
 const validationSchema = Yup.object().shape({
