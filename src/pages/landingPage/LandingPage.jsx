@@ -8,12 +8,13 @@ import { Logo } from "../../components/logo";
 import { FirebaseContext } from "../../firebase/";
 
 import { labels } from "../../configs/labels";
+import { SIGN_IN } from "../../configs/routes";
 import {
   initialTrainingSelected,
   initialTrainings,
 } from "../../configs/initialValues";
 
-import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
+import { LinkStyled, Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 
 export const LandingPage = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -74,7 +75,7 @@ export const LandingPage = () => {
           trainings={trainings}
         />
         <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
-        <p>{labels.signInToReservSpot}</p>
+        <LinkStyled to={SIGN_IN}>{labels.signInToReservSpot}</LinkStyled>
       </WrapperColRight>
     </Wrapper>
   );

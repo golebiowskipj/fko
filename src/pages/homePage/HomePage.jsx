@@ -10,7 +10,10 @@ import { SignedUsersList } from "../../components/signedUsersList";
 
 import { convertDateToHumanReadable } from "../../helpers/helpers";
 import { labels } from "../../configs/labels";
-import { initialTrainingSelected } from "../../configs/initialValues";
+import {
+  initialTrainingSelected,
+  initialTrainings,
+} from "../../configs/initialValues";
 
 import { Test } from "./styled";
 
@@ -21,7 +24,7 @@ export const HomePage = () => {
   );
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const [apiResponseMessage, setApiResponseMessage] = useState(null);
-  const [trainings, setTrainings] = useState([]);
+  const [trainings, setTrainings] = useState(initialTrainings);
   const [signedUsers, setSignedUsers] = useState([]);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
@@ -118,6 +121,7 @@ export const HomePage = () => {
         headerLabel={labels.selectTraining}
         trainings={trainings}
         handleTrainingChange={handleTrainingChange}
+        selectedTraining={selectedTraining}
       />
       <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
       <SignedUsersList

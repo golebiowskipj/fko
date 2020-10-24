@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+
+export const LinkStyled = styled(Link)`
+  text-decoration: none;
+  color: ${({ theme }) => theme.secondary};
+`;
 
 export const Wrapper = styled.section`
   display: flex;
@@ -11,7 +17,6 @@ export const Wrapper = styled.section`
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
     max-width: 90vw;
     flex-direction: row;
-    justify-content: center;
   }
 `;
 
