@@ -1,0 +1,1 @@
+export { SignToTrainingButton } from "./SignToTrainingButton";

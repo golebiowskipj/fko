@@ -1,0 +1,32 @@
+export const labels = {
+  adminPanel: "Panel",
+  availableSpots: "Dostępne miejsca: ",
+  assignedTo: "Zapisani na",
+  doesntHaveAccount: "Nie masz konta?",
+  email: "Email",
+  homePage: "Strona główna",
+  freeSpot: "Wypisz się",
+  logIn: "Zaloguj",
+  password: "Hasło",
+  register: "Zarejestruj się.",
+  registerButton: "Zarejestruj",
+  repeatPassword: "Powtórz hasło",
+  reservations: "Rezerwacje",
+  reserveSpot: "Zapisz mnie",
+  selectTrainingDay: "Wybierz dzień treningu",
+  selectTraining: "Wybierz trening",
+  signInToReservSpot: "Zaloguj się, żeby zarezerwować miejsce",
+  signIn: "Zaloguj się",
+  signOut: "Wyloguj",
+  userName: "Nazwa użytkownika",
+};
+
+export const apiLabels = {
+  alreadyAssignedToThatTraining: "Jesteś już zapisany/a na ten trening",
+  didntReserveSpot: "Nie udało się zapisać na ten trening",
+  noSpotsLeftOnThatTraining: "Nie ma już wolnych miejsc na tym treningu",
+  selectTraining: "Wybierz trening",
+  somethingWentWrong: "Coś poszło nie tak",
+  spotReserved: "Zapisano na trening",
+  spotFreed: "Wypisano z treningu",
+};
