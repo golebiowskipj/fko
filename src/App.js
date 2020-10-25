@@ -28,9 +28,13 @@ function App() {
     const authSub = () => {
       firebaseContext.auth.onAuthStateChanged(async (authUser) => {
         if (authUser) {
-          const user = await firebaseContext.getUser(authUser.uid);
-          setCurrentUser(user);
-          setIsAdmin(user.role === ADMIN);
+          try {
+            const user = await firebaseContext.getUser(authUser.uid);
+            setCurrentUser(user);
+            setIsAdmin(user.role === ADMIN);
+          } catch (error) {
+            console.log(error);
+          }
         } else {
           setCurrentUser(null);
           setIsAdmin(false);

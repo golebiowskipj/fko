@@ -11,7 +11,7 @@ export const labels = {
   register: "Zarejestruj się.",
   registerButton: "Zarejestruj",
   repeatPassword: "Powtórz hasło",
-  reservations: "Rezerwacje",
+  reserve: "Rezerwuj",
   reserveSpot: "Zapisz mnie",
   selectTrainingDay: "Wybierz dzień",
   selectTraining: "Wybierz trening",

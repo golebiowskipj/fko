@@ -25,36 +25,29 @@ export class Firebase {
   saveUserToFirestore = async (userAuth, additionalData) => {
     if (!userAuth) return;
 
-    const userRef = this.db.doc(`users/${userAuth.user.uid}`);
-
-    const snapShot = await userRef.get();
-
-    if (!snapShot.exsists) {
-      try {
-        await userRef.set({
-          email: userAuth.user.email,
-          ...additionalData,
-        });
-      } catch (error) {
-        console.log("Error creating user", error.message);
-      }
+    try {
+      await this.db
+        .doc(`users/${userAuth.user.uid}`)
+        .set({ email: userAuth.user.email, ...additionalData });
+    } catch (error) {
+      console.log(error);
     }
   };
 
   getUser = async (uid) => {
     let user;
-    const userRef = await this.db.doc(`users/${uid}`);
+    const userRef = this.db.doc(`users/${uid}`);
 
-    const snapShot = await userRef.get();
+    try {
+      const doc = await userRef.get();
 
-    if (snapShot.exists) {
-      try {
-        user = await snapShot.data();
-      } catch (error) {
-        console.log("Error getting user", error);
+      if (doc.exists) {
+        user = doc.data();
+      } else {
+        console.log("There is no users with given id", uid);
       }
-    } else {
-      console.log("No user with given id", uid);
+    } catch (error) {
+      console.log("Error getting user", uid);
     }
 
     return user;
@@ -95,11 +88,13 @@ export class Firebase {
     return places - signedUsers.length;
   };
 
-  reserveTrainingSpot = async (email, trainingValue, date, signedUsers) => {
-    if (!trainingValue || !email || !date || !signedUsers)
+  reserveTrainingSpot = async (user, trainingValue, date, signedUsers) => {
+    if (!trainingValue || !user || !date || !signedUsers)
       return apiLabels.somethingWentWrong;
 
-    const alreadyExist = !!signedUsers.find((user) => user === email);
+    const alreadyExist = !!signedUsers.find(
+      (signedUser) => signedUser.email === user.email
+    );
 
     if (alreadyExist) return apiLabels.alreadyAssignedToThatTraining;
     if (signedUsers.length === 15) return apiLabels.noSpotsLeftOnThatTraining;
@@ -107,7 +102,7 @@ export class Firebase {
     try {
       await this.db
         .doc(`${trainingValue.value}/${convertDateToHumanReadable(date)}`)
-        .set({ users: [...signedUsers, email] });
+        .set({ users: [...signedUsers, user] });
 
       return apiLabels.spotReserved;
     } catch (error) {
@@ -120,7 +115,7 @@ export class Firebase {
     if (!trainingValue || !date || !signedUsers || !email)
       return apiLabels.somethingWentWrong;
 
-    const newUsers = signedUsers.filter((user) => user !== email);
+    const newUsers = signedUsers.filter((user) => user.email !== email);
 
     try {
       await this.db

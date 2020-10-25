@@ -16,7 +16,7 @@ const SignOutButton = withSignOut(SignOutButtonStyled);
 const AuthNav = (isAdmin) => (
   <>
     <li>
-      <LinkStyled to={ROUTES.HOME}>{labels.reservations}</LinkStyled>
+      <LinkStyled to={ROUTES.HOME}>{labels.reserve}</LinkStyled>
     </li>
     {isAdmin ? (
       <li>

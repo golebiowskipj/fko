@@ -2,34 +2,27 @@ import React, { useContext } from "react";
 
 import { UserContext } from "../../contexts/userContext/UserContext";
 
+import { List, ListItem } from "./styled";
+import { AssignedUser } from "../assignedUser/AssignedUser";
+
 export const SignedUsersList = ({
-  users,
-  headerLabel,
   handleSignOutFromTraining,
+  headerLabel,
+  users,
 }) => {
-  const userContext = useContext(UserContext);
-
-  const me = userContext ? userContext.email : "";
-
   return (
     <>
       <p>{headerLabel}</p>
-      <ul>
+      <List>
         {users.map((user) => (
-          <li key={user}>
-            <div>
-              <div>{user}</div>
-              <div>
-                {me === user ? (
-                  <button onClick={handleSignOutFromTraining}>
-                    Wypisz się
-                  </button>
-                ) : null}
-              </div>
-            </div>
-          </li>
+          <ListItem key={user.email}>
+            <AssignedUser
+              handleSignOutFromTraining={handleSignOutFromTraining}
+              user={user}
+            />
+          </ListItem>
         ))}
-      </ul>
+      </List>
     </>
   );
 };

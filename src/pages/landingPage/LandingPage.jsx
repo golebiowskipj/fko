@@ -6,9 +6,10 @@ import { CounterDisplay } from "../../components/counterDisplay";
 import { Logo } from "../../components/logo";
 
 import { FirebaseContext } from "../../firebase/";
+import { UserContext } from "../../contexts/userContext/UserContext";
 
 import { labels } from "../../configs/labels";
-import { SIGN_IN } from "../../configs/routes";
+import { HOME, SIGN_IN } from "../../configs/routes";
 import {
   initialTrainingSelected,
   initialTrainings,
@@ -24,6 +25,7 @@ export const LandingPage = () => {
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const [trainings, setTrainings] = useState(initialTrainings);
   const firebaseContext = useContext(FirebaseContext);
+  const userContext = useContext(UserContext);
 
   useEffect(() => {
     const getTrainings = async () => {
@@ -75,7 +77,9 @@ export const LandingPage = () => {
           trainings={trainings}
         />
         <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
-        <LinkStyled to={SIGN_IN}>{labels.signInToReservSpot}</LinkStyled>
+        {!userContext && (
+          <LinkStyled to={SIGN_IN}>{labels.signInToReservSpot}</LinkStyled>
+        )}
       </WrapperColRight>
     </Wrapper>
   );

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
 import { AppForm } from "../../components/appForm";
@@ -21,7 +22,8 @@ const validationSchema = Yup.object().shape({
     .label("Repeat password"),
 });
 
-export const SignUpPage = ({ history }) => {
+export const SignUpPage = (props) => {
+  const history = useHistory();
   const firebaseContext = useContext(FirebaseContext);
   const initialValues = {
     email: "",
@@ -35,8 +37,8 @@ export const SignUpPage = ({ history }) => {
 
     firebaseContext
       .doCreateUserWithEmailAndPassword(email, password)
-      .then((userAuth) => {
-        firebaseContext.saveUserToFirestore(userAuth, {
+      .then(async (userAuth) => {
+        await firebaseContext.saveUserToFirestore(userAuth, {
           strikes: 0,
           assignedTo: [],
           role: ROLES.USER,
@@ -44,7 +46,7 @@ export const SignUpPage = ({ history }) => {
         });
         history.push(HOME);
       })
-      .catch((error) => alert(error));
+      .catch((error) => alert(error.message));
   };
   return (
     <SignInSignUpTemplate>

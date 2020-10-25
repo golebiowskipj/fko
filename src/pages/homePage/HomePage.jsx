@@ -15,7 +15,7 @@ import {
   initialTrainings,
 } from "../../configs/initialValues";
 
-import { Test } from "./styled";
+import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 
 export const HomePage = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -82,7 +82,7 @@ export const HomePage = () => {
 
   const reserveTrainingSpot = async () => {
     const response = await firebaseContext.reserveTrainingSpot(
-      userContext.email,
+      userContext,
       selectedTraining,
       selectedDay,
       signedUsers
@@ -111,29 +111,36 @@ export const HomePage = () => {
   };
 
   return (
-    <div>
-      <AppDatePicker
-        selected={selectedDay}
-        onChange={handleDateChange}
-        headerLabel={labels.selectTrainingDay}
-      />
-      <AppTrainingPicker
-        headerLabel={labels.selectTraining}
-        trainings={trainings}
-        handleTrainingChange={handleTrainingChange}
-        selectedTraining={selectedTraining}
-      />
-      <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
-      <SignedUsersList
-        headerLabel={`${labels.assignedTo} ${mapSelectedTrainingValueToName(
-          trainings
-        )} | ${convertDateToHumanReadable(selectedDay)}`}
-        users={signedUsers}
-        handleSignOutFromTraining={handleSignOutFromTraining}
-      />
-      <SignToTrainingButton label="Zapisz mnie" onClick={reserveTrainingSpot} />
+    <Wrapper>
+      <WrapperColLeft>
+        <AppDatePicker
+          selected={selectedDay}
+          onChange={handleDateChange}
+          headerLabel={labels.selectTrainingDay}
+        />
+        <AppTrainingPicker
+          headerLabel={labels.selectTraining}
+          trainings={trainings}
+          handleTrainingChange={handleTrainingChange}
+          selectedTraining={selectedTraining}
+        />
+        <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
+        <SignToTrainingButton
+          label="Zapisz mnie"
+          onClick={reserveTrainingSpot}
+        />
+      </WrapperColLeft>
+      <WrapperColRight>
+        <SignedUsersList
+          headerLabel={`${labels.assignedTo} ${mapSelectedTrainingValueToName(
+            trainings
+          )} | ${convertDateToHumanReadable(selectedDay)}`}
+          users={signedUsers}
+          handleSignOutFromTraining={handleSignOutFromTraining}
+        />
+      </WrapperColRight>
+
       {apiResponseMessage ? <p>{apiResponseMessage}</p> : null}
-      <Test>elo</Test>
-    </div>
+    </Wrapper>
   );
 };

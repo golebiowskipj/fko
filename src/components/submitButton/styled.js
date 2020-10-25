@@ -9,4 +9,8 @@ export const Button = styled.button`
   font-size: ${({ theme }) => theme.fontM};
   text-transform: uppercase;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `;
