@@ -13,6 +13,6 @@ export const GlobalStyle = createGlobalStyle`
         font-family: ${theme.fontFamily}, Open-Sans, Helvetica, Sans-Serif;
         font-size: ${theme.fontM};
         color: ${theme.secondary};
-        overflow: hidden;
+        overflow-x: hidden;
     }
 `;
