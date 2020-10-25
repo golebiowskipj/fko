@@ -12,7 +12,9 @@ In order to deploy to gh-pages run `npm run deploy`
 
 # TODO
 
-- panel admina - strike
-- jezeli 3 strike - nie mozesz zarezerwowac
-- ustawienia firebase
-- 404 page i redirect
+- admin's panel - strikes
+- 3 strikes - can't reserve spot
+- firebase settings
+- 404 page and redirect
+- tests
+- Firebase class refactor
