@@ -14,5 +14,6 @@ export const GlobalStyle = createGlobalStyle`
         font-size: ${theme.fontM};
         color: ${theme.secondary};
         overflow-x: hidden;
+        padding-bottom: 30px;
     }
 `;

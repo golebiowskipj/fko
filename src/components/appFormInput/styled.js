@@ -11,6 +11,7 @@ export const InputStyled = styled.input`
   padding: 5px;
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.secondary};
+  font-size: ${({ theme }) => theme.fontM};
 
   &:focus {
     outline: none;
