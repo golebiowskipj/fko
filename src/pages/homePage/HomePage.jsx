@@ -16,6 +16,7 @@ import {
 } from "../../configs/initialValues";
 
 import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
+import { ApiMessager } from "../../components/apiMessager/ApiMessager";
 
 export const HomePage = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
@@ -139,8 +140,9 @@ export const HomePage = () => {
           handleSignOutFromTraining={handleSignOutFromTraining}
         />
       </WrapperColRight>
-
-      {apiResponseMessage ? <p>{apiResponseMessage}</p> : null}
+      <ApiMessager isVisible={!!apiResponseMessage}>
+        {apiResponseMessage}
+      </ApiMessager>
     </Wrapper>
   );
 };
