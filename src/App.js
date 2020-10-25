@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, HashRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import { AdminPage } from "./pages/adminPage";
@@ -68,7 +68,7 @@ function App() {
         <AppLoader />
       ) : (
         <UserContext.Provider value={currentUser}>
-          <Router>
+          <Router basename="/">
             <Navigation />
             <Switch>
               <Route exact path={ROUTES.LANDING}>
