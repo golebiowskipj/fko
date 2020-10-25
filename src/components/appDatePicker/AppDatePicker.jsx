@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { AppPickerButton } from "../appPickerButton";
 import { AppPickerHeader } from "../appPickerHeader";
 
-import { addDays } from "../../helpers/helpers";
+import { addDays, daysStart, todaysStart } from "../../helpers/helpers";
 
 import { Wrapper } from "./styled";
 
@@ -20,8 +20,8 @@ export const AppDatePicker = ({ headerLabel, onChange, selected }) => {
       <DatePicker
         dateFormat="dd/MM/yyyy"
         selected={selected}
-        onChange={onChange}
-        minDate={new Date()}
+        onChange={(date) => onChange(daysStart(date))}
+        minDate={todaysStart()}
         maxDate={addDays(5)}
         customInput={<CustomDateInput />}
       />

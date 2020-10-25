@@ -2,11 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import { LandingPage } from "./pages/landingPage";
-import { SignUpPage } from "./pages/signUpPage";
 import { AdminPage } from "./pages/adminPage";
-import { SignInPage } from "./pages/signInPage";
 import { HomePage } from "./pages/homePage";
+import { LandingPage } from "./pages/landingPage";
+import { MyReservationsPage } from "./pages/myReservationsPage";
+import { SignUpPage } from "./pages/signUpPage";
+import { SignInPage } from "./pages/signInPage";
 
 import { AppLoader } from "./components/appLoader";
 import { Navigation } from "./components/navigation";
@@ -33,7 +34,11 @@ function App() {
         if (authUser) {
           try {
             const user = await firebaseContext.getUser(authUser.uid);
-            setCurrentUser(user);
+            setCurrentUser({
+              email: user.email,
+              uid: user.uid,
+              userName: user.userName,
+            });
             setIsAdmin(user.role === ADMIN);
             setIsLoadingUserData(false);
           } catch (error) {
@@ -77,6 +82,9 @@ function App() {
               </Route>
               <ProtectedRoute path={ROUTES.HOME}>
                 <HomePage />
+              </ProtectedRoute>
+              <ProtectedRoute path={ROUTES.MY_RESERVATIONS}>
+                <MyReservationsPage />
               </ProtectedRoute>
               <ProtectedRoute
                 path={ROUTES.ADMIN}

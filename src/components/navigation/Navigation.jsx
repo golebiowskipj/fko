@@ -18,6 +18,11 @@ const AuthNav = (isAdmin) => (
     <li>
       <LinkStyled to={ROUTES.HOME}>{labels.reserve}</LinkStyled>
     </li>
+    <li>
+      <LinkStyled to={ROUTES.MY_RESERVATIONS}>
+        {labels.myReservations}
+      </LinkStyled>
+    </li>
     {isAdmin ? (
       <li>
         <LinkStyled to={ROUTES.ADMIN}>{labels.adminPanel}</LinkStyled>

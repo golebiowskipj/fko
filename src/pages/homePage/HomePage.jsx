@@ -49,6 +49,7 @@ export const HomePage = () => {
   useEffect(() => {
     getSignedUsers();
     getAvailablePlaces();
+    // eslint-disable-next-line
   }, [selectedTraining, selectedDay, apiResponseMessage]);
 
   useEffect(() => {
@@ -59,6 +60,9 @@ export const HomePage = () => {
     };
 
     getTrainings();
+
+    return () => getTrainings();
+    // eslint-disable-next-line
   }, []);
 
   const handleDateChange = (date) => {
@@ -96,7 +100,7 @@ export const HomePage = () => {
       selectedTraining,
       selectedDay,
       signedUsers,
-      userContext.email
+      userContext
     );
     apiMessageHandler(response, 3000);
   };

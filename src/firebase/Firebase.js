@@ -2,7 +2,7 @@ import app from "firebase/app";
 import "firebase/firebase-firestore";
 import "firebase/auth";
 
-import { convertDateToHumanReadable } from "../helpers/helpers";
+import { convertDateToHumanReadable, daysStart } from "../helpers/helpers";
 import { apiLabels } from "../configs/labels";
 
 const config = {
@@ -26,9 +26,11 @@ export class Firebase {
     if (!userAuth) return;
 
     try {
-      await this.db
-        .doc(`users/${userAuth.user.uid}`)
-        .set({ email: userAuth.user.email, ...additionalData });
+      await this.db.doc(`users/${userAuth.user.uid}`).set({
+        uid: userAuth.user.uid,
+        email: userAuth.user.email,
+        ...additionalData,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -92,6 +94,8 @@ export class Firebase {
     if (!trainingValue || !user || !date || !signedUsers)
       return apiLabels.somethingWentWrong;
 
+    const readableDate = convertDateToHumanReadable(date);
+
     const alreadyExist = !!signedUsers.find(
       (signedUser) => signedUser.email === user.email
     );
@@ -99,10 +103,24 @@ export class Firebase {
     if (alreadyExist) return apiLabels.alreadyAssignedToThatTraining;
     if (signedUsers.length === 15) return apiLabels.noSpotsLeftOnThatTraining;
 
+    const updatedUser = await this.getUser(user.uid);
+
+    const newAssignedTo = [
+      ...updatedUser.assignedTo,
+      `${daysStart(new Date(date).getTime())}-${trainingValue.name}`,
+    ].sort();
+
+    const newUser = {
+      ...updatedUser,
+      assignedTo: newAssignedTo,
+    };
+
     try {
       await this.db
-        .doc(`${trainingValue.value}/${convertDateToHumanReadable(date)}`)
-        .set({ users: [...signedUsers, user] });
+        .doc(`${trainingValue.value}/${readableDate}`)
+        .set({ users: [...signedUsers, newUser] });
+
+      await this.updateUser(newUser.uid, newUser);
 
       return apiLabels.spotReserved;
     } catch (error) {
@@ -111,16 +129,34 @@ export class Firebase {
     }
   };
 
-  freeTrainingSpot = async (trainingValue, date, signedUsers, email) => {
-    if (!trainingValue || !date || !signedUsers || !email)
+  updateUser = async (uid, newUserData) => {
+    try {
+      this.db.doc(`users/${uid}`).set(newUserData);
+    } catch (error) {
+      console.log("Couldn't update user", uid, error);
+    }
+  };
+
+  freeTrainingSpot = async (trainingValue, date, signedUsers, user) => {
+    if (!trainingValue || !date || !signedUsers || !user.email)
       return apiLabels.somethingWentWrong;
 
-    const newUsers = signedUsers.filter((user) => user.email !== email);
+    const newUsers = signedUsers.filter((u) => u.uid !== user.uid);
+    const newUser = await this.getUser(user.uid);
+
+    const newAssignedTo = newUser.assignedTo.filter(
+      (a) =>
+        a !== `${daysStart(new Date(date).getTime())}-${trainingValue.name}`
+    );
+
+    const newUserToUpdate = { ...user, assignedTo: newAssignedTo };
 
     try {
       await this.db
         .doc(`${trainingValue.value}/${convertDateToHumanReadable(date)}`)
         .set({ users: newUsers });
+
+      await this.updateUser(newUser.uid, newUserToUpdate);
     } catch (error) {
       console.log("Error saving data", error);
       return apiLabels.didntReserveSpot;

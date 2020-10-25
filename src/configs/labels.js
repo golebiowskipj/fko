@@ -7,6 +7,8 @@ export const labels = {
   homePage: "Strona główna",
   freeSpot: "Wypisz się",
   logIn: "Zaloguj",
+  myReservations: "Moje rezerwacje",
+  noAssignmentsYet: "Nikt się jeszcze nie zapisał",
   password: "Hasło",
   register: "Zarejestruj się.",
   registerButton: "Zarejestruj",
@@ -19,6 +21,7 @@ export const labels = {
   signIn: "Zaloguj się",
   signOut: "Wyloguj",
   userName: "Nazwa użytkownika",
+  youAreNotAssignedYet: "Nie masz zarezerwowanych treningów",
 };
 
 export const apiLabels = {

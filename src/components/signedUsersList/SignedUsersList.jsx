@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
-import { UserContext } from "../../contexts/userContext/UserContext";
+import { AssignedUser } from "../assignedUser/AssignedUser";
+
+import { labels } from "../../configs/labels";
 
 import { List, ListItem } from "./styled";
-import { AssignedUser } from "../assignedUser/AssignedUser";
 
 export const SignedUsersList = ({
   handleSignOutFromTraining,
@@ -14,14 +15,16 @@ export const SignedUsersList = ({
     <>
       <p>{headerLabel}</p>
       <List>
-        {users.map((user) => (
-          <ListItem key={user.email}>
-            <AssignedUser
-              handleSignOutFromTraining={handleSignOutFromTraining}
-              user={user}
-            />
-          </ListItem>
-        ))}
+        {users.length === 0
+          ? labels.noAssignmentsYet
+          : users.map((user) => (
+              <ListItem key={user.email}>
+                <AssignedUser
+                  handleSignOutFromTraining={handleSignOutFromTraining}
+                  user={user}
+                />
+              </ListItem>
+            ))}
       </List>
     </>
   );

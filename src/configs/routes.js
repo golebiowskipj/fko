@@ -1,6 +1,6 @@
-export const LANDING = "/";
-export const SIGN_UP = "/signup";
-export const SIGN_IN = "/signin";
-export const HOME = "/home";
 export const ADMIN = "/admin";
-// export const PASSWORD_FORGET = "/pw-forget";
+export const HOME = "/rezerwuj";
+export const LANDING = "/";
+export const MY_RESERVATIONS = "/moje-rezerwacje";
+export const SIGN_UP = "/zarejestruj";
+export const SIGN_IN = "/zaloguje";
