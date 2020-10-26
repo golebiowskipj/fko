@@ -4,7 +4,7 @@
 
 This is a training reservation app in React with Firebase Auth and Firestore.
 
-Not logged in User can see how many free training spots are available for given date and training type.
+Not logged-in Visitor can see how many free training spots are available for given date and training type.
 
 User can create an account and reserve a spot for a training. User is also able to free previously reserved training spot if he/she is not able to participate in a class. Usere will be informed if he/she is already assigned to given training, so he/she can't reserve two spots. There is a separate page with all trainings that User is assigned to.
 
