@@ -12,9 +12,27 @@ In order to deploy to gh-pages run `npm run deploy`
 
 # TODO
 
+1. API communication
+
+- Firebase class refactor
+- reduce number of calls to firebase (trainings, user data etc)
+- some calls should be reduced, e.g. assignedTo from the past should be filtered out on firebase site
+
+2. UX improvements
+
+- handle firebase auth response during login and registration
+
+3. Tests
+
+- snapshots
+- unit tests
+
+4. Features
+
 - admin's panel - strikes
 - 3 strikes - can't reserve spot
-- firebase settings
 - 404 page and redirect
-- tests
-- Firebase class refactor
+
+5. Other
+
+- firebase settings
