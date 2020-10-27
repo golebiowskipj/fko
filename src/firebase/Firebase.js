@@ -166,11 +166,15 @@ export class Firebase {
   };
 
   getTrainings = async () => {
-    const trainingsSnapShot = await this.db.collection("trainings").get();
+    try {
+      const trainingsSnapShot = await this.db.collection("trainings").get();
+      const trainings = trainingsSnapShot.docs.map((doc) => doc.data());
 
-    const trainings = trainingsSnapShot.docs.map((doc) => doc.data());
-
-    return trainings;
+      return trainings;
+    } catch (error) {
+      console.log("Error getting trainings", error);
+      return [];
+    }
   };
 
   doCreateUserWithEmailAndPassword = (email, password) =>

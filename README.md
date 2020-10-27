@@ -44,7 +44,9 @@ In order to deploy to gh-pages run `npm run deploy`
 - admin's panel - strikes
 - 3 strikes - can't reserve spot
 - 404 page and redirect
+- Trainings should have days field (e.g. on Friday there is no training at 20:00)
 
 5. Other
 
 - firebase settings
+- trainings should have id like new Date().setHour(18.0.0.0);
