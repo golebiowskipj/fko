@@ -14,22 +14,22 @@ import { SIGN_IN } from "../../configs/routes";
 
 import { LinkStyled, Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 
-const start = new Date();
-
 export const LandingPage = () => {
-  const [selectedDay, setSelectedDay] = useState(start);
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const { handleSelectTraining, selectedTraining, trainings } = useContext(
-    AppDataContext
-  );
+  const {
+    handleSelectTraining,
+    selectedDate,
+    selectedTraining,
+    trainings,
+  } = useContext(AppDataContext);
 
   useEffect(() => {
     const getAvailablePlaces = async () => {
       const places = await firebaseContext.getAvailablePlaces(
         selectedTraining,
-        selectedDay
+        selectedDate
       );
 
       setAvailablePlaces(places);
@@ -39,11 +39,7 @@ export const LandingPage = () => {
 
     return () => getAvailablePlaces();
     // eslint-disable-next-line
-  }, [selectedTraining, selectedDay]);
-
-  const handleDateChange = (date) => {
-    setSelectedDay(date);
-  };
+  }, [selectedTraining, selectedDate]);
 
   const handleTrainingChange = (e) => {
     const training = trainings.find((t) => t.value === e.target.value);
@@ -56,11 +52,7 @@ export const LandingPage = () => {
         <Logo />
       </WrapperColLeft>
       <WrapperColRight>
-        <AppDatePicker
-          selected={selectedDay}
-          onChange={handleDateChange}
-          headerLabel={labels.selectTrainingDay}
-        />
+        <AppDatePicker headerLabel={labels.selectTrainingDay} />
         <AppTrainingPicker
           handleTrainingChange={handleTrainingChange}
           headerLabel={labels.selectTraining}

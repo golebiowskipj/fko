@@ -4,6 +4,12 @@ import { AppDataContext } from "./AppDataContext";
 import { FirebaseContext } from "../../firebase/";
 
 import { initialSelectedTraining } from "../../configs/initialValues";
+import {
+  convertDateToMidnightTimestamp,
+  getTodaysMidnight,
+} from "../../helpers/helpers";
+
+const initDate = getTodaysMidnight();
 
 export const AppDataContainer = ({ children }) => {
   const firebaseContext = useContext(FirebaseContext);
@@ -12,6 +18,7 @@ export const AppDataContainer = ({ children }) => {
   const [selectedTraining, setSelectedTraining] = useState(
     initialSelectedTraining
   );
+  const [selectedDate, setSelectedDate] = useState(initDate);
 
   useEffect(() => {
     let isCanceled = false;
@@ -34,16 +41,21 @@ export const AppDataContainer = ({ children }) => {
     };
   }, []);
 
+  const handleSelectDate = (date) =>
+    setSelectedDate(convertDateToMidnightTimestamp(date));
+
   const handleSelectTraining = (training) => setSelectedTraining(training);
 
-  console.log("app data render");
+  console.log("app data render", selectedDate);
 
   return (
     <AppDataContext.Provider
       value={{
         isLoading,
+        handleSelectDate,
         handleSelectTraining,
         trainings,
+        selectedDate,
         selectedTraining,
       }}
     >

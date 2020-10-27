@@ -3,7 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/userContext/UserContext";
 import { FirebaseContext } from "../../firebase/";
 
-import { convertDateToHumanReadable, todaysStart } from "../../helpers/helpers";
+import {
+  convertDateToHumanReadable,
+  getTodaysMidnight,
+} from "../../helpers/helpers";
 import { labels } from "../../configs/labels";
 
 import { List, Wrapper } from "./styled";
@@ -27,7 +30,7 @@ export const MyReservationsPage = () => {
       });
 
       const filteredAssignedTo = decodedAssignedTo.filter(
-        (d) => d.date >= todaysStart()
+        (d) => d.date >= getTodaysMidnight()
       );
 
       setUsersReservations(filteredAssignedTo);

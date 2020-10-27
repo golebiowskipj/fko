@@ -17,15 +17,17 @@ import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 import { ApiMessager } from "../../components/apiMessager/ApiMessager";
 
 export const HomePage = () => {
-  const [selectedDay, setSelectedDay] = useState(new Date());
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const [apiResponseMessage, setApiResponseMessage] = useState(null);
   const [signedUsers, setSignedUsers] = useState([]);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const { handleSelectTraining, selectedTraining, trainings } = useContext(
-    AppDataContext
-  );
+  const {
+    handleSelectTraining,
+    selectedDate,
+    selectedTraining,
+    trainings,
+  } = useContext(AppDataContext);
 
   const apiMessageHandler = (message, ms) => {
     setApiResponseMessage(message);
@@ -37,7 +39,7 @@ export const HomePage = () => {
   const getSignedUsers = async () => {
     const users = await firebaseContext.getSignedUsers(
       selectedTraining,
-      selectedDay
+      selectedDate
     );
 
     setSignedUsers(users);
@@ -47,12 +49,7 @@ export const HomePage = () => {
     getSignedUsers();
     getAvailablePlaces();
     // eslint-disable-next-line
-  }, [selectedTraining, selectedDay, apiResponseMessage]);
-
-  const handleDateChange = (date) => {
-    setSelectedDay(date);
-    setApiResponseMessage(null);
-  };
+  }, [selectedTraining, selectedDate, apiResponseMessage]);
 
   const handleTrainingChange = (e) => {
     const training = trainings.find((t) => t.value === e.target.value);
@@ -63,7 +60,7 @@ export const HomePage = () => {
   const getAvailablePlaces = async () => {
     const places = await firebaseContext.getAvailablePlaces(
       selectedTraining,
-      selectedDay
+      selectedDate
     );
 
     setAvailablePlaces(places);
@@ -73,7 +70,7 @@ export const HomePage = () => {
     const response = await firebaseContext.reserveTrainingSpot(
       userContext,
       selectedTraining,
-      selectedDay,
+      selectedDate,
       signedUsers
     );
     apiMessageHandler(response, 3000);
@@ -82,7 +79,7 @@ export const HomePage = () => {
   const handleSignOutFromTraining = async () => {
     const response = await firebaseContext.freeTrainingSpot(
       selectedTraining,
-      selectedDay,
+      selectedDate,
       signedUsers,
       userContext
     );
@@ -102,11 +99,7 @@ export const HomePage = () => {
   return (
     <Wrapper>
       <WrapperColLeft>
-        <AppDatePicker
-          selected={selectedDay}
-          onChange={handleDateChange}
-          headerLabel={labels.selectTrainingDay}
-        />
+        <AppDatePicker headerLabel={labels.selectTrainingDay} />
         <AppTrainingPicker
           headerLabel={labels.selectTraining}
           handleTrainingChange={handleTrainingChange}
@@ -122,7 +115,7 @@ export const HomePage = () => {
         <SignedUsersList
           headerLabel={`${labels.assignedTo} ${mapSelectedTrainingValueToName(
             trainings
-          )} | ${convertDateToHumanReadable(selectedDay)}`}
+          )} | ${convertDateToHumanReadable(selectedDate)}`}
           users={signedUsers}
           handleSignOutFromTraining={handleSignOutFromTraining}
         />
