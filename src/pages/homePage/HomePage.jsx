@@ -1,19 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { FirebaseContext } from "../../firebase";
-import { UserContext } from "../../contexts/userContext/UserContext";
 import { AppDatePicker } from "../../components/appDatePicker";
 import { AppTrainingPicker } from "../../components/appTrainingPicker";
 import { SignToTrainingButton } from "../../components/signToTrainingButton";
 import { CounterDisplay } from "../../components/counterDisplay";
 import { SignedUsersList } from "../../components/signedUsersList";
 
+import { AppDataContext } from "../../contexts/appDataContext";
+import { FirebaseContext } from "../../firebase";
+import { UserContext } from "../../contexts/userContext/UserContext";
+
 import { convertDateToHumanReadable } from "../../helpers/helpers";
 import { labels } from "../../configs/labels";
-import {
-  initialTrainingSelected,
-  initialTrainings,
-} from "../../configs/initialValues";
+import { initialTrainingSelected } from "../../configs/initialValues";
 
 import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 import { ApiMessager } from "../../components/apiMessager/ApiMessager";
@@ -25,10 +24,10 @@ export const HomePage = () => {
   );
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const [apiResponseMessage, setApiResponseMessage] = useState(null);
-  const [trainings, setTrainings] = useState(initialTrainings);
   const [signedUsers, setSignedUsers] = useState([]);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
+  const { trainings } = useContext(AppDataContext);
 
   const apiMessageHandler = (message, ms) => {
     setApiResponseMessage(message);
@@ -51,19 +50,6 @@ export const HomePage = () => {
     getAvailablePlaces();
     // eslint-disable-next-line
   }, [selectedTraining, selectedDay, apiResponseMessage]);
-
-  useEffect(() => {
-    const getTrainings = async () => {
-      const trainings = await firebaseContext.getTrainings();
-
-      setTrainings(trainings);
-    };
-
-    getTrainings();
-
-    return () => getTrainings();
-    // eslint-disable-next-line
-  }, []);
 
   const handleDateChange = (date) => {
     setSelectedDay(date);
@@ -125,7 +111,6 @@ export const HomePage = () => {
         />
         <AppTrainingPicker
           headerLabel={labels.selectTraining}
-          trainings={trainings}
           handleTrainingChange={handleTrainingChange}
           selectedTraining={selectedTraining}
         />

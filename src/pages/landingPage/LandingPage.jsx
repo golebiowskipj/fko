@@ -5,6 +5,7 @@ import { AppTrainingPicker } from "../../components/appTrainingPicker";
 import { CounterDisplay } from "../../components/counterDisplay";
 import { Logo } from "../../components/logo";
 
+import { AppDataContext } from "../../contexts/appDataContext";
 import { FirebaseContext } from "../../firebase/";
 import { UserContext } from "../../contexts/userContext/UserContext";
 
@@ -25,22 +26,9 @@ export const LandingPage = () => {
     initialTrainingSelected
   );
   const [availablePlaces, setAvailablePlaces] = useState(null);
-  const [trainings, setTrainings] = useState(initialTrainings);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-
-  useEffect(() => {
-    const getTrainings = async () => {
-      const trainings = await firebaseContext.getTrainings();
-
-      setTrainings(trainings);
-    };
-
-    getTrainings();
-
-    return () => getTrainings();
-    // eslint-disable-next-line
-  }, []);
+  const { trainings } = useContext(AppDataContext);
 
   useEffect(() => {
     const getAvailablePlaces = async () => {
@@ -82,7 +70,6 @@ export const LandingPage = () => {
           handleTrainingChange={handleTrainingChange}
           headerLabel={labels.selectTraining}
           selectedTraining={selectedTraining}
-          trainings={trainings}
         />
         <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
         {!userContext && (
