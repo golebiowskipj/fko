@@ -10,8 +10,10 @@ export const AppDataContainer = ({ children }) => {
 
   useEffect(() => {
     let isCanceled = false;
-    setIsLoading(true);
+
     const getTrainings = async () => {
+      console.log("api call for app data");
+      setIsLoading(true);
       const trainings = await firebaseContext.getTrainings();
 
       if (!isCanceled) {
@@ -27,7 +29,8 @@ export const AppDataContainer = ({ children }) => {
     };
   }, []);
 
-  console.log(trainings);
+  console.log("app data render");
+
   return (
     <AppDataContext.Provider
       value={{
