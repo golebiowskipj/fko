@@ -13,6 +13,7 @@ export const AppTrainingPicker = ({
   selectedTraining,
 }) => {
   const { trainings } = useContext(AppDataContext);
+
   return (
     <Wrapper>
       <AppPickerHeader>{headerLabel}</AppPickerHeader>

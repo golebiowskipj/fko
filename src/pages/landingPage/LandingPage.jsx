@@ -11,10 +11,6 @@ import { UserContext } from "../../contexts/userContext/UserContext";
 
 import { labels } from "../../configs/labels";
 import { SIGN_IN } from "../../configs/routes";
-import {
-  initialTrainingSelected,
-  initialTrainings,
-} from "../../configs/initialValues";
 
 import { LinkStyled, Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 
@@ -22,13 +18,12 @@ const start = new Date();
 
 export const LandingPage = () => {
   const [selectedDay, setSelectedDay] = useState(start);
-  const [selectedTraining, setSelectedTraining] = useState(
-    initialTrainingSelected
-  );
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const { trainings } = useContext(AppDataContext);
+  const { handleSelectTraining, selectedTraining, trainings } = useContext(
+    AppDataContext
+  );
 
   useEffect(() => {
     const getAvailablePlaces = async () => {
@@ -52,7 +47,7 @@ export const LandingPage = () => {
 
   const handleTrainingChange = (e) => {
     const training = trainings.find((t) => t.value === e.target.value);
-    setSelectedTraining(training);
+    handleSelectTraining(training);
   };
 
   return (

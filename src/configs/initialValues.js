@@ -1,4 +1,4 @@
-export const initialTrainingSelected = {
+export const initialSelectedTraining = {
   value: "boks19",
   name: "Boks 19:00",
   capacity: 15,

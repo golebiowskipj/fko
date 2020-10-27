@@ -12,22 +12,20 @@ import { UserContext } from "../../contexts/userContext/UserContext";
 
 import { convertDateToHumanReadable } from "../../helpers/helpers";
 import { labels } from "../../configs/labels";
-import { initialTrainingSelected } from "../../configs/initialValues";
 
 import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
 import { ApiMessager } from "../../components/apiMessager/ApiMessager";
 
 export const HomePage = () => {
   const [selectedDay, setSelectedDay] = useState(new Date());
-  const [selectedTraining, setSelectedTraining] = useState(
-    initialTrainingSelected
-  );
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const [apiResponseMessage, setApiResponseMessage] = useState(null);
   const [signedUsers, setSignedUsers] = useState([]);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const { trainings } = useContext(AppDataContext);
+  const { handleSelectTraining, selectedTraining, trainings } = useContext(
+    AppDataContext
+  );
 
   const apiMessageHandler = (message, ms) => {
     setApiResponseMessage(message);
@@ -58,7 +56,7 @@ export const HomePage = () => {
 
   const handleTrainingChange = (e) => {
     const training = trainings.find((t) => t.value === e.target.value);
-    setSelectedTraining(training);
+    handleSelectTraining(training);
     setApiResponseMessage(null);
   };
 
