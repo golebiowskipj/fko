@@ -22,12 +22,9 @@ export const HomePage = () => {
   const [signedUsers, setSignedUsers] = useState([]);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const {
-    handleSelectTraining,
-    selectedDate,
-    selectedTraining,
-    trainings,
-  } = useContext(AppDataContext);
+  const { selectedDate, selectedTraining, trainings } = useContext(
+    AppDataContext
+  );
 
   const apiMessageHandler = (message, ms) => {
     setApiResponseMessage(message);
@@ -50,12 +47,6 @@ export const HomePage = () => {
     getAvailablePlaces();
     // eslint-disable-next-line
   }, [selectedTraining, selectedDate, apiResponseMessage]);
-
-  const handleTrainingChange = (e) => {
-    const training = trainings.find((t) => t.value === e.target.value);
-    handleSelectTraining(training);
-    setApiResponseMessage(null);
-  };
 
   const getAvailablePlaces = async () => {
     const places = await firebaseContext.getAvailablePlaces(
@@ -100,11 +91,7 @@ export const HomePage = () => {
     <Wrapper>
       <WrapperColLeft>
         <AppDatePicker headerLabel={labels.selectTrainingDay} />
-        <AppTrainingPicker
-          headerLabel={labels.selectTraining}
-          handleTrainingChange={handleTrainingChange}
-          selectedTraining={selectedTraining}
-        />
+        <AppTrainingPicker headerLabel={labels.selectTraining} />
         <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
         <SignToTrainingButton
           label="Zapisz mnie"

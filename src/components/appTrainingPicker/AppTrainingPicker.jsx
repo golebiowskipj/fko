@@ -7,12 +7,12 @@ import { AppDataContext } from "../../contexts/appDataContext";
 
 import { List, ListItem, Wrapper } from "./styled";
 
-export const AppTrainingPicker = ({
-  headerLabel,
-  handleTrainingChange,
-  selectedTraining,
-}) => {
-  const { trainings } = useContext(AppDataContext);
+export const AppTrainingPicker = ({ headerLabel }) => {
+  const { trainings, handleSelectTraining, selectedTraining } = useContext(
+    AppDataContext
+  );
+
+  console.log(selectedTraining);
 
   return (
     <Wrapper>
@@ -21,9 +21,9 @@ export const AppTrainingPicker = ({
         {trainings.map((training) => (
           <ListItem key={training.name}>
             <TrainingButton
-              training={training}
-              onClick={handleTrainingChange}
               isActive={selectedTraining.value === training.value}
+              trainingName={training.name}
+              onClick={() => handleSelectTraining(training)}
             />
           </ListItem>
         ))}

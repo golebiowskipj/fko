@@ -24,7 +24,7 @@ export const AppDataContainer = ({ children }) => {
     let isCanceled = false;
 
     const getTrainings = async () => {
-      console.log("api call for app data");
+      console.log("api call for data - trainings");
       setIsLoading(true);
       const trainings = await firebaseContext.getTrainings();
 
@@ -45,8 +45,6 @@ export const AppDataContainer = ({ children }) => {
     setSelectedDate(convertDateToMidnightTimestamp(date));
 
   const handleSelectTraining = (training) => setSelectedTraining(training);
-
-  console.log("app data render", selectedDate);
 
   return (
     <AppDataContext.Provider

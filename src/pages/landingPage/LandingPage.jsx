@@ -18,12 +18,7 @@ export const LandingPage = () => {
   const [availablePlaces, setAvailablePlaces] = useState(null);
   const firebaseContext = useContext(FirebaseContext);
   const userContext = useContext(UserContext);
-  const {
-    handleSelectTraining,
-    selectedDate,
-    selectedTraining,
-    trainings,
-  } = useContext(AppDataContext);
+  const { selectedDate, selectedTraining } = useContext(AppDataContext);
 
   useEffect(() => {
     const getAvailablePlaces = async () => {
@@ -41,11 +36,6 @@ export const LandingPage = () => {
     // eslint-disable-next-line
   }, [selectedTraining, selectedDate]);
 
-  const handleTrainingChange = (e) => {
-    const training = trainings.find((t) => t.value === e.target.value);
-    handleSelectTraining(training);
-  };
-
   return (
     <Wrapper>
       <WrapperColLeft>
@@ -53,11 +43,7 @@ export const LandingPage = () => {
       </WrapperColLeft>
       <WrapperColRight>
         <AppDatePicker headerLabel={labels.selectTrainingDay} />
-        <AppTrainingPicker
-          handleTrainingChange={handleTrainingChange}
-          headerLabel={labels.selectTraining}
-          selectedTraining={selectedTraining}
-        />
+        <AppTrainingPicker headerLabel={labels.selectTraining} />
         <CounterDisplay label={labels.availableSpots} value={availablePlaces} />
         {!userContext && (
           <LinkStyled to={SIGN_IN}>{labels.signInToReservSpot}</LinkStyled>
