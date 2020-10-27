@@ -22,37 +22,16 @@ export class Firebase {
     this.db = app.firestore();
   }
 
-  saveUserToFirestore = async (userAuth, additionalData) => {
-    if (!userAuth) return;
+  // Get data from firestore
 
-    try {
-      await this.db.doc(`users/${userAuth.user.uid}`).set({
-        uid: userAuth.user.uid,
-        email: userAuth.user.email,
-        ...additionalData,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  getAvailablePlaces = async (training, date) => {
+    if (!training) return apiLabels.selectTraining;
 
-  getUser = async (uid) => {
-    let user;
-    const userRef = this.db.doc(`users/${uid}`);
+    let places = training ? training.capacity : 15;
 
-    try {
-      const doc = await userRef.get();
+    const signedUsers = await this.getSignedUsers(training, date);
 
-      if (doc.exists) {
-        user = doc.data();
-      } else {
-        console.log("There is no users with given id", uid);
-      }
-    } catch (error) {
-      console.log("Error getting user", uid);
-    }
-
-    return user;
+    return places - signedUsers.length;
   };
 
   getSignedUsers = async (training, date) => {
@@ -80,15 +59,40 @@ export class Firebase {
     return users;
   };
 
-  getAvailablePlaces = async (training, date) => {
-    if (!training) return apiLabels.selectTraining;
+  getTrainings = async () => {
+    try {
+      const trainingsSnapShot = await this.db.collection("trainings").get();
+      const trainings = trainingsSnapShot.docs.map((doc) => doc.data());
 
-    let places = training ? training.capacity : 15;
-
-    const signedUsers = await this.getSignedUsers(training, date);
-
-    return places - signedUsers.length;
+      return trainings;
+    } catch (error) {
+      console.log("Error getting trainings", error);
+      return [];
+    }
   };
+
+  getUser = async (uid) => {
+    let user;
+    const userRef = this.db.doc(`users/${uid}`);
+
+    try {
+      const doc = await userRef.get();
+
+      if (doc.exists) {
+        user = doc.data();
+      } else {
+        console.log("There is no users with given id", uid);
+      }
+    } catch (error) {
+      console.log("Error getting user", uid);
+    }
+
+    return user;
+  };
+
+  // Save data in firestore
+
+  // other
 
   reserveTrainingSpot = async (user, trainingValue, date, signedUsers) => {
     if (!trainingValue || !user || !date || !signedUsers)
@@ -165,17 +169,7 @@ export class Firebase {
     return apiLabels.spotFreed;
   };
 
-  getTrainings = async () => {
-    try {
-      const trainingsSnapShot = await this.db.collection("trainings").get();
-      const trainings = trainingsSnapShot.docs.map((doc) => doc.data());
-
-      return trainings;
-    } catch (error) {
-      console.log("Error getting trainings", error);
-      return [];
-    }
-  };
+  // AUTH
 
   doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
@@ -190,4 +184,18 @@ export class Firebase {
 
   doPasswordUpdate = (password) =>
     this.auth.currentUser.updatePassword(password);
+
+  saveUserToFirestore = async (userAuth, additionalData) => {
+    if (!userAuth) return;
+
+    try {
+      await this.db.doc(`users/${userAuth.user.uid}`).set({
+        uid: userAuth.user.uid,
+        email: userAuth.user.email,
+        ...additionalData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
