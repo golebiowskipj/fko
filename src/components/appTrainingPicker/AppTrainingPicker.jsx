@@ -12,8 +12,6 @@ export const AppTrainingPicker = ({ headerLabel }) => {
     AppDataContext
   );
 
-  console.log(selectedTraining);
-
   return (
     <Wrapper>
       <AppPickerHeader>{headerLabel}</AppPickerHeader>

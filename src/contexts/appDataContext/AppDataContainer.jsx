@@ -7,24 +7,28 @@ import { initialSelectedTraining } from "../../configs/initialValues";
 import {
   convertDateToMidnightTimestamp,
   getTodaysMidnight,
+  setUpInAppUserData,
 } from "../../helpers/helpers";
+import { ADMIN } from "../../configs/roles";
 
 const initDate = getTodaysMidnight();
 
 export const AppDataContainer = ({ children }) => {
   const firebaseContext = useContext(FirebaseContext);
+  const [availableSpots, setAvailableSposts] = useState(15);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [trainings, setTrainings] = useState([]);
   const [selectedTraining, setSelectedTraining] = useState(
     initialSelectedTraining
   );
   const [selectedDate, setSelectedDate] = useState(initDate);
+  const [trainings, setTrainings] = useState([]);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     let isCanceled = false;
 
     const getTrainings = async () => {
-      console.log("api call for data - trainings");
       setIsLoading(true);
       const trainings = await firebaseContext.getTrainings();
 
@@ -41,20 +45,76 @@ export const AppDataContainer = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    const authSub = () => {
+      setIsLoading(true);
+      firebaseContext.auth.onAuthStateChanged(async (authUser) => {
+        if (authUser) {
+          try {
+            const user = await firebaseContext.getUser(authUser.uid);
+            setUserData(setUpInAppUserData(user));
+            setIsAdmin(user.role === ADMIN);
+            setIsLoading(false);
+          } catch (error) {
+            console.log(error);
+            setIsLoading(false);
+          }
+        } else {
+          setUserData(null);
+          setIsAdmin(false);
+          setIsLoading(false);
+        }
+      });
+    };
+
+    authSub();
+  }, []);
+
+  useEffect(() => {
+    let isCanceled = false;
+
+    const getAvailableSpots = async () => {
+      const spots = await firebaseContext.getAvailableSpots(
+        selectedDate,
+        selectedTraining
+      );
+
+      if (!isCanceled) {
+        setAvailableSposts(spots);
+      }
+    };
+
+    getAvailableSpots();
+
+    return () => {
+      isCanceled = true;
+    };
+  }, [selectedDate, selectedTraining, userData]);
+
   const handleSelectDate = (date) =>
     setSelectedDate(convertDateToMidnightTimestamp(date));
 
   const handleSelectTraining = (training) => setSelectedTraining(training);
 
+  const refreshUserData = async () => {
+    const user = await firebaseContext.getUser(userData.uid);
+
+    setUserData(user);
+  };
+
   return (
     <AppDataContext.Provider
       value={{
+        availableSpots,
         isLoading,
+        isAdmin,
         handleSelectDate,
         handleSelectTraining,
-        trainings,
+        refreshUserData,
         selectedDate,
         selectedTraining,
+        trainings,
+        userData,
       }}
     >
       {children}

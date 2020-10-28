@@ -2,7 +2,7 @@ import app from "firebase/app";
 import "firebase/firebase-firestore";
 import "firebase/auth";
 
-import { convertDateToHumanReadable, daysStart } from "../helpers/helpers";
+import { APIresponse, generateTrainingId } from "../helpers/helpers";
 import { apiLabels } from "../configs/labels";
 
 const config = {
@@ -24,39 +24,37 @@ export class Firebase {
 
   // Get data from firestore
 
-  getAvailablePlaces = async (training, date) => {
+  getAvailableSpots = async (date, training) => {
     if (!training) return apiLabels.selectTraining;
 
-    let places = training ? training.capacity : 15;
+    const trainingId = generateTrainingId(date, training);
 
-    const signedUsers = await this.getSignedUsers(training, date);
+    const reservations = await this.getReservations(trainingId, training.value);
 
-    return places - signedUsers.length;
+    return training.capacity - reservations.length;
   };
 
-  getSignedUsers = async (training, date) => {
-    if (!training) return [];
-    let users = [];
+  getReservations = async (trainingId, trainingValue) => {
+    if (!trainingId) return [];
+    let reservations = [];
 
-    const formattedDate = convertDateToHumanReadable(date);
-
-    const signedUsersRef = this.db.doc(`${training.value}/${formattedDate}`);
+    const signedUsersRef = this.db.doc(`${trainingValue}/${trainingId}`);
 
     try {
       const doc = await signedUsersRef.get();
       if (doc.exists) {
-        users = doc.data().users;
+        reservations = doc.data().reservations;
       } else {
-        console.log(`No such document! ${training.value}/${formattedDate}`);
+        console.log(`No such document! ${trainingValue}/${trainingId}`);
       }
     } catch (error) {
       console.log(
-        `Error getting document! - ${training.value}/${formattedDate}`,
+        `Error getting document! - ${trainingValue}/${trainingId}`,
         error
       );
     }
 
-    return users;
+    return reservations;
   };
 
   getTrainings = async () => {
@@ -94,42 +92,66 @@ export class Firebase {
 
   // other
 
-  reserveTrainingSpot = async (user, trainingValue, date, signedUsers) => {
-    if (!trainingValue || !user || !date || !signedUsers)
-      return apiLabels.somethingWentWrong;
+  reserveTrainingSpot = async (date, training, user) => {
+    if (!date || !training || !user)
+      return APIresponse(400, apiLabels.somethingWentWrong);
 
-    const readableDate = convertDateToHumanReadable(date);
+    const trainingId = generateTrainingId(date, training);
 
-    const alreadyExist = !!signedUsers.find(
-      (signedUser) => signedUser.email === user.email
-    );
+    const reservations = await this.getReservations(trainingId, training.value);
 
-    if (alreadyExist) return apiLabels.alreadyAssignedToThatTraining;
-    if (signedUsers.length === 15) return apiLabels.noSpotsLeftOnThatTraining;
+    const alreadyExists = !!reservations.find((u) => u.uid === user.uid);
 
-    const updatedUser = await this.getUser(user.uid);
-
-    const newAssignedTo = [
-      ...updatedUser.assignedTo,
-      `${daysStart(new Date(date).getTime())}-${trainingValue.name}`,
-    ].sort();
+    if (alreadyExists)
+      return APIresponse(204, apiLabels.alreadyAssignedToThatTraining);
+    if (reservations.length === training.capacity)
+      return APIresponse(204, apiLabels.noSpotsLeftOnThatTraining);
 
     const newUser = {
-      ...updatedUser,
-      assignedTo: newAssignedTo,
+      ...user,
+      assignedTo: [...user.assignedTo, trainingId].sort(),
     };
 
     try {
       await this.db
-        .doc(`${trainingValue.value}/${readableDate}`)
-        .set({ users: [...signedUsers, newUser] });
+        .doc(`${training.value}/${trainingId}`)
+        .set({ reservations: [...reservations, newUser] });
 
       await this.updateUser(newUser.uid, newUser);
 
-      return apiLabels.spotReserved;
+      return APIresponse(200, apiLabels.spotReserved);
     } catch (error) {
       console.log("Error saving data", error);
-      return apiLabels.didntReserveSpot;
+      return APIresponse(500, apiLabels.didntReserveSpot);
+    }
+  };
+
+  freeTrainingSpot = async (date, training, user) => {
+    if (!date || !training || !user)
+      return APIresponse(400, apiLabels.somethingWentWrong);
+
+    const trainingId = generateTrainingId(date, training);
+
+    const reservations = await this.getReservations(trainingId, training.value);
+
+    const newReservations = reservations.filter((u) => u.uid !== user.uid);
+
+    const newUser = {
+      ...user,
+      assignedTo: user.assignedTo.filter((a) => a !== trainingId),
+    };
+
+    try {
+      await this.db
+        .doc(`${training.value}/${trainingId}`)
+        .set({ reservations: newReservations });
+
+      await this.updateUser(newUser.uid, newUser);
+
+      return APIresponse(200, apiLabels.spotFreed);
+    } catch (error) {
+      console.log("Error saving data", error);
+      return APIresponse(500, apiLabels.didntFreeSpot);
     }
   };
 
@@ -139,34 +161,6 @@ export class Firebase {
     } catch (error) {
       console.log("Couldn't update user", uid, error);
     }
-  };
-
-  freeTrainingSpot = async (trainingValue, date, signedUsers, user) => {
-    if (!trainingValue || !date || !signedUsers || !user.email)
-      return apiLabels.somethingWentWrong;
-
-    const newUsers = signedUsers.filter((u) => u.uid !== user.uid);
-    const newUser = await this.getUser(user.uid);
-
-    const newAssignedTo = newUser.assignedTo.filter(
-      (a) =>
-        a !== `${daysStart(new Date(date).getTime())}-${trainingValue.name}`
-    );
-
-    const newUserToUpdate = { ...user, assignedTo: newAssignedTo };
-
-    try {
-      await this.db
-        .doc(`${trainingValue.value}/${convertDateToHumanReadable(date)}`)
-        .set({ users: newUsers });
-
-      await this.updateUser(newUser.uid, newUserToUpdate);
-    } catch (error) {
-      console.log("Error saving data", error);
-      return apiLabels.didntReserveSpot;
-    }
-
-    return apiLabels.spotFreed;
   };
 
   // AUTH
