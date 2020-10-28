@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { withSignOut } from "../withSignOut/withSignOut";
-
-import { UserContext } from "../../contexts/userContext/UserContext";
-import { FirebaseContext } from "../../firebase";
+import { AppDataContext } from "../../contexts/appDataContext";
 
 import * as ROUTES from "../../configs/routes";
 import { labels } from "../../configs/labels";
@@ -45,22 +43,12 @@ const NoAuthNav = (
   </>
 );
 
-export const Navigation = () => {
-  const [role, setRole] = useState(null);
-  const firebaseContext = useContext(FirebaseContext);
-  const userContext = useContext(UserContext);
-
-  const { currentUser } = firebaseContext.auth;
-
-  useEffect(() => {
-    if (userContext) {
-      setRole(userContext.role);
-    }
-  }, [userContext]);
+export const Navigation = ({ isAdmin }) => {
+  const { userData } = useContext(AppDataContext);
 
   return (
     <NavWrapper>
-      <NavList>{currentUser ? AuthNav(role === ADMIN) : NoAuthNav}</NavList>
+      <NavList>{userData ? AuthNav(isAdmin === ADMIN) : NoAuthNav}</NavList>
     </NavWrapper>
   );
 };

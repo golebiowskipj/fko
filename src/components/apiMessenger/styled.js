@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.white};
   width: 300px;
   height: 50px;
-  top: 100px;
+  top: 50%;
   right: 0;
   transition: transform 0.5s ease;
   border: 1px solid black;
@@ -15,6 +15,6 @@ export const Wrapper = styled.div`
 
   ${(props) =>
     props.isVisible
-      ? "transform: translateX(-20px)"
-      : "transform: translateX(100%)"};
+      ? "transform: translateX(-20px) translateY(50%)"
+      : "transform: translateX(100%) translateY(50%)"};
 `;

@@ -29,7 +29,7 @@ function App() {
         <AppLoader />
       ) : (
         <Router basename="/">
-          <Navigation />
+          <Navigation isAdmin={isAdmin} />
           <Switch>
             <Route exact path={ROUTES.LANDING}>
               <LandingPage />

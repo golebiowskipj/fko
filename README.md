@@ -26,8 +26,8 @@ In order to deploy to gh-pages run `npm run deploy`
 
 1. API communication
 
-- Firebase class refactor
-- reduce number of calls to firebase (trainings, user data etc)
+- ~~Firebase class refactor~~
+- ~~reduce number of calls to firebase (trainings, user data etc)~~
 - some calls should be reduced, e.g. assignedTo from the past should be filtered out on firebase site
 
 2. UX improvements
@@ -49,4 +49,4 @@ In order to deploy to gh-pages run `npm run deploy`
 5. Other
 
 - firebase settings
-- trainings should have id like new Date().setHour(18.0.0.0);
+- ~~trainings should have id like new Date().setHour(18.0.0.0)~~

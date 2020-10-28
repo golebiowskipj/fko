@@ -1,36 +1,53 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 
+import { ApiMessenger } from "../../components/apiMessenger";
 import { AppForm } from "../../components/appForm";
 import { AppFormField } from "../../components/appFormField";
 import { SubmitButton } from "../../components/submitButton";
+
 import { SignInSignUpTemplate } from "../../templates/signInSignUpTemplate";
 
 import { FirebaseContext } from "../../firebase";
+
+import * as apiCodes from "../../configs/apiCodes";
 import { HOME } from "../../configs/routes";
 import * as ROLES from "../../configs/roles";
-import { labels } from "../../configs/labels";
+import { labels, apiLabels, validationLabels } from "../../configs/labels";
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string().required().email().label("Email"),
-  userName: Yup.string().required().min(2).label("User name"),
-  password: Yup.string().required().min(3).label("Password"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password"), null], "Passwords must match")
-    .required()
-    .label("Repeat password"),
+Yup.setLocale({
+  mixed: {
+    required: validationLabels.thisFieldIsRequired,
+  },
+  string: {
+    email: validationLabels.thisFieldMustBeAnEmail,
+    min: (field) =>
+      `${field.label} ${validationLabels.mustBeAtLeast} ${field.min} ${validationLabels.passwordChars}`,
+  },
 });
 
-export const SignUpPage = (props) => {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required().email().label(labels.email),
+  userName: Yup.string().required().min(6).label(labels.userName),
+  password: Yup.string().required().min(6).label(labels.password),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], validationLabels.passwordsMustMatch)
+    .required()
+    .label(labels.repeatPassword),
+});
+
+const initialValues = {
+  email: "",
+  userName: "",
+  password: "",
+  confirmPassword: "",
+};
+
+export const SignUpPage = () => {
+  const [apiMessage, setApiMessage] = useState(null);
   const history = useHistory();
   const firebaseContext = useContext(FirebaseContext);
-  const initialValues = {
-    email: "",
-    userName: "",
-    password: "",
-    confirmPassword: "",
-  };
 
   const handleSubmit = (values) => {
     const { email, password, userName } = values;
@@ -46,8 +63,23 @@ export const SignUpPage = (props) => {
         });
         history.push(HOME);
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        if (error.code === apiCodes.USER_ALREADY_EXISTS) {
+          apiMessageHandler(apiLabels.userAlreadyExists, 3000);
+        } else if (error.code === apiCodes.PASSWORD_TOO_WEAK) {
+          apiMessageHandler(apiLabels.passwordToWeak, 3000);
+        }
+        console.log(error);
+      });
   };
+
+  const apiMessageHandler = (message, ms) => {
+    setApiMessage(message);
+    setTimeout(() => {
+      setApiMessage(null);
+    }, ms);
+  };
+
   return (
     <SignInSignUpTemplate>
       <AppForm
@@ -65,6 +97,7 @@ export const SignUpPage = (props) => {
         />
         <SubmitButton label={labels.registerButton} />
       </AppForm>
+      <ApiMessenger isVisible={!!apiMessage}>{apiMessage}</ApiMessenger>
     </SignInSignUpTemplate>
   );
 };

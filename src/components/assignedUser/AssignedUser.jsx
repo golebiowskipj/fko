@@ -12,7 +12,7 @@ export const AssignedUser = ({ handleSignOutFromTraining, user }) => {
   return (
     <Wrapper>
       {user.userName}
-      {user.uid === userData.uid ? (
+      {userData && user.uid === userData.uid ? (
         <Button onClick={handleSignOutFromTraining}>{labels.freeSpot}</Button>
       ) : null}
     </Wrapper>

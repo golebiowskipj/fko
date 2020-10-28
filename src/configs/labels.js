@@ -29,8 +29,20 @@ export const apiLabels = {
   didntFreeSpot: "Nie udało się wypisać z treningu",
   didntReserveSpot: "Nie udało się zapisać na ten trening",
   noSpotsLeftOnThatTraining: "Nie ma już wolnych miejsc na tym treningu",
+  passwordToWeak: "Hasło musi mieć > 6 znaków",
   selectTraining: "Wybierz trening",
   somethingWentWrong: "Coś poszło nie tak",
   spotReserved: "Zapisano na trening",
   spotFreed: "Wypisano z treningu",
+  userDoesntExist: "Taki użytkownik nie istnieje",
+  userAlreadyExists: "Podany email już istnieje",
+  wrongPassword: "Wpisane hasło jest nieprawidłowe",
+};
+
+export const validationLabels = {
+  thisFieldIsRequired: "To pole jest wymagane",
+  thisFieldMustBeAnEmail: "Wpisz poprawny email",
+  mustBeAtLeast: "musi mieć minimum",
+  passwordChars: "znaków",
+  passwordsMustMatch: "Hasła muszą pasować",
 };

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { UserContext } from "../../contexts/userContext/UserContext";
+import { AppDataContext } from "../../contexts/appDataContext";
 import { FirebaseContext } from "../../firebase/";
 
 import {
@@ -13,12 +13,12 @@ import { List, Wrapper } from "./styled";
 
 export const MyReservationsPage = () => {
   const [usersReservations, setUsersReservations] = useState([]);
-  const userContext = useContext(UserContext);
+  const { userData } = useContext(AppDataContext);
   const firebaseContext = useContext(FirebaseContext);
 
   useEffect(() => {
     const getReservations = async () => {
-      const user = await firebaseContext.getUser(userContext.uid);
+      const user = await firebaseContext.getUser(userData.uid);
 
       const { assignedTo } = user;
 
