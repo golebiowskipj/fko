@@ -28,11 +28,11 @@ In order to deploy to gh-pages run `npm run deploy`
 
 - ~~Firebase class refactor~~
 - ~~reduce number of calls to firebase (trainings, user data etc)~~
-- some calls should be reduced, e.g. assignedTo from the past should be filtered out on firebase site
 
 2. UX improvements
 
-- handle firebase auth response during login and registration
+- ~~handle firebase auth response during login and registration~~
+- ~~polish validation labels~~
 
 3. Tests
 
@@ -45,6 +45,8 @@ In order to deploy to gh-pages run `npm run deploy`
 - 3 strikes - can't reserve spot
 - 404 page and redirect
 - Trainings should have days field (e.g. on Friday there is no training at 20:00)
+- trainings should be sorted
+- my reservations page
 
 5. Other
 
