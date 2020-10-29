@@ -47,6 +47,8 @@ In order to deploy to gh-pages run `npm run deploy`
 - Trainings should have days field (e.g. on Friday there is no training at 20:00)
 - trainings should be sorted
 - my reservations page
+- clear database from old trainings (older than a month)
+- cant sign on training that already started
 
 5. Other
 

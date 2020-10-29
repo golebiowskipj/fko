@@ -6,6 +6,7 @@ import { FirebaseContext } from "../../firebase/";
 import { initialSelectedTraining } from "../../configs/initialValues";
 import {
   convertDateToMidnightTimestamp,
+  getDayFromDate,
   getTodaysMidnight,
   setUpInAppUserData,
 } from "../../helpers/helpers";
@@ -16,6 +17,7 @@ const initDate = getTodaysMidnight();
 export const AppDataContainer = ({ children }) => {
   const firebaseContext = useContext(FirebaseContext);
   const [availableSpots, setAvailableSposts] = useState(15);
+  const [filteredTrainings, setFilteredTrainings] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTraining, setSelectedTraining] = useState(
@@ -91,6 +93,24 @@ export const AppDataContainer = ({ children }) => {
     };
   }, [selectedDate, selectedTraining, userData]);
 
+  useEffect(() => {
+    let isCanceled = false;
+    const filtered = trainings.filter((training) =>
+      doesTrainingOccureOnDay(training, getDayFromDate(selectedDate))
+    );
+
+    if (!isCanceled) {
+      setFilteredTrainings(filtered);
+    }
+
+    return () => {
+      isCanceled = true;
+    };
+  }, [trainings, selectedDate]);
+
+  const doesTrainingOccureOnDay = (training, day) =>
+    training.occure.indexOf(day) > 0 ? true : false;
+
   const handleSelectDate = (date) =>
     setSelectedDate(convertDateToMidnightTimestamp(date));
 
@@ -113,7 +133,7 @@ export const AppDataContainer = ({ children }) => {
         refreshUserData,
         selectedDate,
         selectedTraining,
-        trainings,
+        trainings: filteredTrainings,
         userData,
       }}
     >

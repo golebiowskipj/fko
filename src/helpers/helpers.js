@@ -21,6 +21,8 @@ export const daysStart = (timestamp) =>
 export const generateTrainingId = (date, training) =>
   new Date(date).setHours(training.startsAt);
 
+export const getDayFromDate = (date) => new Date(date).getDay();
+
 export const getTodaysMidnight = () => new Date().setHours(0, 0, 0, 0);
 
 export const setUpInAppUserData = (user) => ({

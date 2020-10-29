@@ -5,11 +5,13 @@ import { AppDataContext } from "../../contexts/appDataContext";
 import { Wrapper } from "./styled";
 
 export const CounterDisplay = ({ label }) => {
-  const { availableSpots } = useContext(AppDataContext);
+  const { availableSpots, trainings } = useContext(AppDataContext);
   return (
-    <Wrapper>
-      <span>{label}</span>
-      <span>{availableSpots}</span>
-    </Wrapper>
+    trainings.length !== 0 && (
+      <Wrapper>
+        <span>{label}</span>
+        <span>{availableSpots}</span>
+      </Wrapper>
+    )
   );
 };

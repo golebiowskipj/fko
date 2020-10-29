@@ -9,6 +9,7 @@ export const labels = {
   logIn: "Zaloguj",
   myReservations: "Moje rezerwacje",
   noAssignmentsYet: "Nikt się jeszcze nie zapisał",
+  noTrainingsOnThatDate: "Tego dnia nie ma treningów",
   password: "Hasło",
   register: "Zarejestruj się.",
   registerButton: "Zarejestruj",
