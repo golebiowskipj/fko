@@ -23,10 +23,14 @@ export const generateTrainingId = (date, training) =>
 
 export const getDayFromDate = (date) => new Date(date).getDay();
 
-export const getNowDayAndHour = () => ({
-  day: new Date().getDay(),
-  hour: new Date().getHours(),
-});
+export const getNow = () => {
+  const d = new Date();
+  return {
+    day: d.getDay(),
+    hour: d.getHours(),
+    minutes: d.getMinutes(),
+  };
+};
 
 export const getTodaysMidnight = () => new Date().setHours(0, 0, 0, 0);
 
