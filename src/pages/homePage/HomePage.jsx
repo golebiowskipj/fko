@@ -21,6 +21,7 @@ export const HomePage = () => {
     refreshUserData,
     selectedDate,
     selectedTraining,
+    trainings,
     userData,
   } = useContext(AppDataContext);
 
@@ -61,10 +62,12 @@ export const HomePage = () => {
         <AppDatePicker headerLabel={labels.selectTrainingDay} />
         <AppTrainingPicker headerLabel={labels.selectTraining} />
         <CounterDisplay label={labels.availableSpots} />
-        <SignToTrainingButton
-          label="Zapisz mnie"
-          onClick={reserveTrainingSpot}
-        />
+        {trainings.length > 0 && (
+          <SignToTrainingButton
+            label="Zapisz mnie"
+            onClick={reserveTrainingSpot}
+          />
+        )}
       </WrapperColLeft>
       <WrapperColRight>
         <SignedUsersList

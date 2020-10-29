@@ -15,8 +15,9 @@ import { List, ListItem } from "./styled";
 
 export const SignedUsersList = ({ handleSignOutFromTraining }) => {
   const [reservations, setReservations] = useState([]);
+  const [title, setTitle] = useState("");
   const firebaseContext = useContext(FirebaseContext);
-  const { selectedDate, selectedTraining, userData } = useContext(
+  const { selectedDate, selectedTraining, trainings, userData } = useContext(
     AppDataContext
   );
 
@@ -36,29 +37,38 @@ export const SignedUsersList = ({ handleSignOutFromTraining }) => {
 
     getReservations();
 
+    if (!isCanceled) {
+      setTitle(
+        `${selectedTraining.name} ${" | "} ${convertDateToHumanReadable(
+          selectedDate
+        )}`
+      );
+    }
+
     return () => {
       isCanceled = true;
     };
   }, [selectedDate, selectedTraining, userData]);
 
   return (
-    <>
-      <p>
-        {labels.assignedTo} {selectedTraining.name} {" | "}
-        {convertDateToHumanReadable(selectedDate)}
-      </p>
-      <List>
-        {reservations.length === 0
-          ? labels.noAssignmentsYet
-          : reservations.map((reservation) => (
-              <ListItem key={reservation.email}>
-                <AssignedUser
-                  handleSignOutFromTraining={handleSignOutFromTraining}
-                  user={reservation}
-                />
-              </ListItem>
-            ))}
-      </List>
-    </>
+    trainings.length > 0 && (
+      <>
+        <p>
+          {labels.assignedTo} {title}
+        </p>
+        <List>
+          {reservations.length === 0
+            ? labels.noAssignmentsYet
+            : reservations.map((reservation) => (
+                <ListItem key={reservation.email}>
+                  <AssignedUser
+                    handleSignOutFromTraining={handleSignOutFromTraining}
+                    user={reservation}
+                  />
+                </ListItem>
+              ))}
+        </List>
+      </>
+    )
   );
 };

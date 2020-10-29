@@ -123,8 +123,10 @@ export const AppDataContainer = ({ children }) => {
     }
   };
 
-  const handleSelectDate = (date) =>
+  const handleSelectDate = (date) => {
     setSelectedDate(convertDateToMidnightTimestamp(date));
+    setSelectedTraining(initialSelectedTraining);
+  };
 
   const handleSelectTraining = (training) => setSelectedTraining(training);
 
