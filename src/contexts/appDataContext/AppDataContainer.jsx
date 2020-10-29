@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import { AppDataContext } from "./AppDataContext";
 import { FirebaseContext } from "../../firebase/";
@@ -12,6 +13,7 @@ import {
   setUpInAppUserData,
 } from "../../helpers/helpers";
 import { ADMIN } from "../../configs/roles";
+import { SIGN_IN, VERIFY_EMAIL } from "../../configs/routes";
 
 const initDate = getTodaysMidnight();
 
@@ -27,6 +29,8 @@ export const AppDataContainer = ({ children }) => {
   const [selectedDate, setSelectedDate] = useState(initDate);
   const [trainings, setTrainings] = useState([]);
   const [userData, setUserData] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     let isCanceled = false;
@@ -52,16 +56,34 @@ export const AppDataContainer = ({ children }) => {
     const authSub = () => {
       setIsLoading(true);
       firebaseContext.auth.onAuthStateChanged(async (authUser) => {
+        //   1. if user sign-in correctly
         if (authUser) {
-          try {
-            const user = await firebaseContext.getUser(authUser.uid);
-            setUserData(setUpInAppUserData(user));
-            setIsAdmin(user.role === ADMIN);
-            setIsLoading(false);
-          } catch (error) {
-            console.log(error);
-            setIsLoading(false);
+          // 2. check if user already verified email addres
+          if (authUser.emailVerified) {
+            //   3. get user data from db
+            try {
+              const user = await firebaseContext.getUser(authUser.uid);
+              // 4.. if user is not in db yet, go to sign-in page and sign-out
+              if (!user) {
+                history.push(SIGN_IN);
+                await firebaseContext.doSignOut();
+              } else {
+                //  4.. if user is in db, set his data to app context
+                setUserData(setUpInAppUserData(user));
+                setIsAdmin(user.role === ADMIN);
+                setIsLoading(false);
+              }
+              //   3. error in getting user data from db
+            } catch (error) {
+              console.log(error);
+              setIsLoading(false);
+            }
+            // 2. redirect to verify email page and sign-out
+          } else {
+            history.push(VERIFY_EMAIL);
+            firebaseContext.doSignOut();
           }
+          //   1. if user sign-out
         } else {
           setUserData(null);
           setIsAdmin(false);

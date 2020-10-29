@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
 
 import { ApiMessenger } from "../../components/apiMessenger";
 import { AppForm } from "../../components/appForm";
@@ -8,7 +7,7 @@ import { AppFormField } from "../../components/appFormField";
 import { SubmitButton } from "../../components/submitButton";
 
 import { FirebaseContext } from "../../firebase";
-import { HOME, SIGN_UP } from "../../configs/routes";
+import { HOME, SIGN_UP, VERIFY_EMAIL } from "../../configs/routes";
 import { labels, apiLabels, validationLabels } from "../../configs/labels";
 import * as apiCodes from "../../configs/apiCodes";
 
@@ -39,14 +38,13 @@ const initialValues = {
 export const SignInPage = () => {
   const [apiMessage, setApiMessage] = useState(null);
   const firebaseContext = useContext(FirebaseContext);
-  const history = useHistory();
 
   const handleSubmit = (values) => {
     const { email, password } = values;
 
     firebaseContext
       .doSignInWithEmailAndPassword(email, password)
-      .then(() => history.push(HOME))
+      .then(async (authUser) => {})
       .catch((error) => {
         if (error.code === apiCodes.USER_NOT_FOUND) {
           apiMessageHandler(apiLabels.userDoesntExist, 3000);

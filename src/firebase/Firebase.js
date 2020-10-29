@@ -192,4 +192,12 @@ export class Firebase {
       console.log(error);
     }
   };
+
+  sendEmailVerification = async () => {
+    try {
+      await this.auth.currentUser.sendEmailVerification();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }

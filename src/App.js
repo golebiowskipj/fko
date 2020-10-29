@@ -75,6 +75,9 @@ function App() {
             >
               <AdminPage />
             </ProtectedRoute>
+            <Route exact path={ROUTES.VERIFY_EMAIL}>
+              <p>zweryfikuj email</p>
+            </Route>
             <Route>
               <NotFoundPage />
             </Route>

@@ -12,7 +12,7 @@ import { SignInSignUpTemplate } from "../../templates/signInSignUpTemplate";
 import { FirebaseContext } from "../../firebase";
 
 import * as apiCodes from "../../configs/apiCodes";
-import { HOME } from "../../configs/routes";
+import { HOME, VERIFY_EMAIL } from "../../configs/routes";
 import * as ROLES from "../../configs/roles";
 import { labels, apiLabels, validationLabels } from "../../configs/labels";
 
@@ -61,9 +61,12 @@ export const SignUpPage = () => {
           role: ROLES.USER,
           userName: userName,
         });
-        history.push(HOME);
+        firebaseContext.sendEmailVerification();
+        history.push(VERIFY_EMAIL);
+        firebaseContext.doSignOut();
       })
       .catch((error) => {
+        console.log(error);
         if (error.code === apiCodes.USER_ALREADY_EXISTS) {
           apiMessageHandler(apiLabels.userAlreadyExists, 3000);
         } else if (error.code === apiCodes.PASSWORD_TOO_WEAK) {

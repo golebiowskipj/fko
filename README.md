@@ -42,13 +42,13 @@ In order to deploy to gh-pages run `npm run deploy`
 
 4. Features
 
-- 404 page and redirect
-- ~~when logged in - redirect to HOME (rezerwacje)~~
 - my reservations page
 - backend validation - now button is hidden on front, but teoreticly Firebase class can make a call - Firebase class should validate if call is possible
 - admin's panel - strikes
 - 3 strikes - can't reserve spot
 - clear database from old trainings (older than a month)
+- ~~404 page and redirect~~
+- ~~when logged in - redirect to HOME (rezerwacje)~~
 - ~~Trainings should have days field (e.g. on Friday there is no training at 20:00)~~
 - ~~trainings should be sorted~~
 - ~~cant sign on training that already started~~

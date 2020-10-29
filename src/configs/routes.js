@@ -4,3 +4,4 @@ export const LANDING = "/";
 export const MY_RESERVATIONS = "/moje-rezerwacje";
 export const SIGN_UP = "/zarejestruj";
 export const SIGN_IN = "/zaloguj";
+export const VERIFY_EMAIL = "/potwierdz-email";

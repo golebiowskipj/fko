@@ -8,11 +8,11 @@ import { FirebaseContext, Firebase } from "./firebase";
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
-    <AppDataContainer>
-      <Router basename="/">
+    <Router basename="/">
+      <AppDataContainer>
         <App />
-      </Router>
-    </AppDataContainer>
+      </AppDataContainer>
+    </Router>
   </FirebaseContext.Provider>,
   document.getElementById("root")
 );
