@@ -8,6 +8,7 @@ import {
   convertDateToMidnightTimestamp,
   getDayFromDate,
   getTodaysMidnight,
+  getNowDayAndHour,
   setUpInAppUserData,
 } from "../../helpers/helpers";
 import { ADMIN } from "../../configs/roles";
@@ -95,8 +96,12 @@ export const AppDataContainer = ({ children }) => {
 
   useEffect(() => {
     let isCanceled = false;
-    const filtered = trainings.filter((training) =>
-      doesTrainingOccureOnDay(training, getDayFromDate(selectedDate))
+    const now = getNowDayAndHour();
+    const today = new Date().getDay();
+    const filtered = trainings.filter(
+      (training) =>
+        doesTrainingOccureOnDay(training, getDayFromDate(selectedDate)) &&
+        hasTrainingAlreadyStarted(training, now, today)
     );
 
     if (!isCanceled) {
@@ -110,6 +115,14 @@ export const AppDataContainer = ({ children }) => {
 
   const doesTrainingOccureOnDay = (training, day) =>
     training.occure.indexOf(day) > -1 ? true : false;
+
+  const hasTrainingAlreadyStarted = (training, now, today) => {
+    if (now.day === today) {
+      return training.startsAt + 1 >= now.hour ? true : false;
+    } else {
+      return false;
+    }
+  };
 
   const handleSelectDate = (date) =>
     setSelectedDate(convertDateToMidnightTimestamp(date));

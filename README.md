@@ -48,7 +48,7 @@ In order to deploy to gh-pages run `npm run deploy`
 - ~~trainings should be sorted~~
 - my reservations page
 - clear database from old trainings (older than a month)
-- cant sign on training that already started
+- ~~cant sign on training that already started~~
 
 5. Other
 
