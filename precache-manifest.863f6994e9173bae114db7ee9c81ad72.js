@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "656c026ecae56b5f9450444a3368d971",
+    "revision": "32be73af1f59a82890e9243ddd3cdae2",
     "url": "/fko/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/fko/static/js/2.ec65f7f4.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e9f551c56a3de001585c",
-    "url": "/fko/static/js/main.8610af0f.chunk.js"
+    "revision": "0f54d40b998dc33f08cc",
+    "url": "/fko/static/js/main.6ab95810.chunk.js"
   },
   {
     "revision": "ce2f848bcf8b9da25eed",
