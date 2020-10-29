@@ -42,6 +42,7 @@ In order to deploy to gh-pages run `npm run deploy`
 
 4. Features
 
+- verify email page
 - my reservations page
 - backend validation - now button is hidden on front, but teoreticly Firebase class can make a call - Firebase class should validate if call is possible
 - admin's panel - strikes

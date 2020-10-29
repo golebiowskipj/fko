@@ -55,6 +55,7 @@ export const SignUpPage = () => {
     firebaseContext
       .doCreateUserWithEmailAndPassword(email, password)
       .then(async (userAuth) => {
+        console.log(userAuth);
         await firebaseContext.saveUserToFirestore(userAuth, {
           strikes: 0,
           assignedTo: [],

@@ -58,36 +58,30 @@ export const AppDataContainer = ({ children }) => {
       firebaseContext.auth.onAuthStateChanged(async (authUser) => {
         //   1. if user sign-in correctly
         if (authUser) {
-          // 2. check if user already verified email addres
-          if (authUser.emailVerified) {
-            //   3. get user data from db
-            try {
-              const user = await firebaseContext.getUser(authUser.uid);
-              // 4.. if user is not in db yet, go to sign-in page and sign-out
-              if (!user) {
-                history.push(SIGN_IN);
-                await firebaseContext.doSignOut();
-              } else {
-                //  4.. if user is in db, set his data to app context
-                setUserData(setUpInAppUserData(user));
-                setIsAdmin(user.role === ADMIN);
-                setIsLoading(false);
-              }
-              //   3. error in getting user data from db
-            } catch (error) {
-              console.log(error);
+          //   3. get user data from db
+          try {
+            const user = await firebaseContext.getUser(authUser.uid);
+            // 4.. if user is not in db yet, go to sign-in page and sign-out
+            if (!user) {
+              await firebaseContext.doSignOut();
+              history.push(SIGN_IN);
+            } else {
+              //  4.. if user is in db, set his data to app context
+              setUserData(setUpInAppUserData(user));
+              setIsAdmin(user.role === ADMIN);
               setIsLoading(false);
             }
-            // 2. redirect to verify email page and sign-out
-          } else {
-            history.push(VERIFY_EMAIL);
-            firebaseContext.doSignOut();
+            //   3. error in getting user data from db
+          } catch (error) {
+            console.log(error);
+            setIsLoading(false);
           }
           //   1. if user sign-out
         } else {
           setUserData(null);
           setIsAdmin(false);
           setIsLoading(false);
+          history.push(SIGN_IN);
         }
       });
     };
