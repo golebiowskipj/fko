@@ -5,7 +5,6 @@ import { AppDataContext } from "../../contexts/appDataContext";
 
 import * as ROUTES from "../../configs/routes";
 import { labels } from "../../configs/labels";
-import { ADMIN } from "../../configs/roles";
 
 import { LinkStyled, NavWrapper, NavList, SignOutButtonStyled } from "./styled";
 
@@ -16,11 +15,11 @@ const AuthNav = (isAdmin) => (
     <li>
       <LinkStyled to={ROUTES.HOME}>{labels.reserve}</LinkStyled>
     </li>
-    <li>
+    {/* <li>
       <LinkStyled to={ROUTES.MY_RESERVATIONS}>
         {labels.myReservations}
       </LinkStyled>
-    </li>
+    </li> */}
     {isAdmin ? (
       <li>
         <LinkStyled to={ROUTES.ADMIN}>{labels.adminPanel}</LinkStyled>
@@ -48,7 +47,7 @@ export const Navigation = ({ isAdmin }) => {
 
   return (
     <NavWrapper>
-      <NavList>{userData ? AuthNav(isAdmin === ADMIN) : NoAuthNav}</NavList>
+      <NavList>{userData ? AuthNav(isAdmin) : NoAuthNav}</NavList>
     </NavWrapper>
   );
 };

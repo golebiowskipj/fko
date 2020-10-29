@@ -33,6 +33,7 @@ In order to deploy to gh-pages run `npm run deploy`
 
 - ~~handle firebase auth response during login and registration~~
 - ~~polish validation labels~~
+- introduce nice design with icons etc.
 
 3. Tests
 
@@ -41,16 +42,18 @@ In order to deploy to gh-pages run `npm run deploy`
 
 4. Features
 
+- 404 page and redirect
+- ~~when logged in - redirect to HOME (rezerwacje)~~
+- my reservations page
+- backend validation - now button is hidden on front, but teoreticly Firebase class can make a call - Firebase class should validate if call is possible
 - admin's panel - strikes
 - 3 strikes - can't reserve spot
-- 404 page and redirect
+- clear database from old trainings (older than a month)
 - ~~Trainings should have days field (e.g. on Friday there is no training at 20:00)~~
 - ~~trainings should be sorted~~
-- my reservations page
-- clear database from old trainings (older than a month)
 - ~~cant sign on training that already started~~
 
 5. Other
 
-- firebase settings
+- ~~firebase security~~
 - ~~trainings should have id like new Date().setHour(18.0.0.0)~~

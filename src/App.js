@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Route, Switch, HashRouter as Router } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
 import { AdminPage } from "./pages/adminPage";
@@ -20,7 +20,14 @@ import { theme } from "./configs/theme";
 import { GlobalStyle } from "./configs/globalStyles";
 
 function App() {
-  const { isLoading, isAdmin } = useContext(AppDataContext);
+  const { isLoading, isAdmin, userData } = useContext(AppDataContext);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (userData) {
+      history.push(ROUTES.HOME);
+    }
+  }, [userData]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -28,7 +35,7 @@ function App() {
       {isLoading ? (
         <AppLoader />
       ) : (
-        <Router basename="/">
+        <>
           <Navigation isAdmin={isAdmin} />
           <Switch>
             <Route exact path={ROUTES.LANDING}>
@@ -43,14 +50,14 @@ function App() {
             <ProtectedRoute path={ROUTES.HOME}>
               <HomePage />
             </ProtectedRoute>
-            <ProtectedRoute path={ROUTES.MY_RESERVATIONS}>
+            {/* <ProtectedRoute path={ROUTES.MY_RESERVATIONS}>
               <MyReservationsPage />
-            </ProtectedRoute>
+            </ProtectedRoute> */}
             <ProtectedRoute path={ROUTES.ADMIN} isAdmin={isAdmin} isAdminRoute>
               <AdminPage />
             </ProtectedRoute>
           </Switch>
-        </Router>
+        </>
       )}
     </ThemeProvider>
   );
