@@ -35,7 +35,7 @@ export const AppDataContainer = ({ children }) => {
       const trainings = await firebaseContext.getTrainings();
 
       if (!isCanceled) {
-        setTrainings(trainings);
+        setTrainings(trainings.sort((a, b) => a.startsAt - b.startsAt));
         setIsLoading(false);
       }
     };
@@ -109,7 +109,7 @@ export const AppDataContainer = ({ children }) => {
   }, [trainings, selectedDate]);
 
   const doesTrainingOccureOnDay = (training, day) =>
-    training.occure.indexOf(day) > 0 ? true : false;
+    training.occure.indexOf(day) > -1 ? true : false;
 
   const handleSelectDate = (date) =>
     setSelectedDate(convertDateToMidnightTimestamp(date));

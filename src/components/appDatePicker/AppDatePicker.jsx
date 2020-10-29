@@ -16,7 +16,7 @@ const CustomDateInput = ({ onClick, value }) => (
 );
 
 const MIN_DATE = getTodaysMidnight();
-const MAX_DATE = addDays(2);
+const MAX_DATE = addDays(7);
 
 export const AppDatePicker = ({ headerLabel }) => {
   const { handleSelectDate, selectedDate } = useContext(AppDataContext);

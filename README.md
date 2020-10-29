@@ -44,8 +44,8 @@ In order to deploy to gh-pages run `npm run deploy`
 - admin's panel - strikes
 - 3 strikes - can't reserve spot
 - 404 page and redirect
-- Trainings should have days field (e.g. on Friday there is no training at 20:00)
-- trainings should be sorted
+- ~~Trainings should have days field (e.g. on Friday there is no training at 20:00)~~
+- ~~trainings should be sorted~~
 - my reservations page
 - clear database from old trainings (older than a month)
 - cant sign on training that already started
