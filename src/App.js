@@ -6,6 +6,7 @@ import { AdminPage } from "./pages/adminPage";
 import { HomePage } from "./pages/homePage";
 import { LandingPage } from "./pages/landingPage";
 import { MyReservationsPage } from "./pages/myReservationsPage";
+import { NotFoundPage } from "./pages/notFoundPage";
 import { SignUpPage } from "./pages/signUpPage";
 import { SignInPage } from "./pages/signInPage";
 
@@ -22,6 +23,19 @@ import { GlobalStyle } from "./configs/globalStyles";
 function App() {
   const { isLoading, isAdmin, userData } = useContext(AppDataContext);
   const history = useHistory();
+
+  useEffect(() => {
+    const setAppHeight = () => {
+      const vh = window.innerHeight * 0.01;
+
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+    };
+    window.addEventListener("resize", setAppHeight);
+
+    return () => {
+      window.removeEventListener("resize", setAppHeight);
+    };
+  }, []);
 
   useEffect(() => {
     if (userData) {
@@ -41,21 +55,29 @@ function App() {
             <Route exact path={ROUTES.LANDING}>
               <LandingPage />
             </Route>
-            <Route path={ROUTES.SIGN_UP}>
+            <Route exact path={ROUTES.SIGN_UP}>
               <SignUpPage />
             </Route>
-            <Route path={ROUTES.SIGN_IN}>
+            <Route exact path={ROUTES.SIGN_IN}>
               <SignInPage />
             </Route>
-            <ProtectedRoute path={ROUTES.HOME}>
+            <ProtectedRoute exact path={ROUTES.HOME}>
               <HomePage />
             </ProtectedRoute>
             {/* <ProtectedRoute path={ROUTES.MY_RESERVATIONS}>
               <MyReservationsPage />
             </ProtectedRoute> */}
-            <ProtectedRoute path={ROUTES.ADMIN} isAdmin={isAdmin} isAdminRoute>
+            <ProtectedRoute
+              exact
+              path={ROUTES.ADMIN}
+              isAdmin={isAdmin}
+              isAdminRoute
+            >
               <AdminPage />
             </ProtectedRoute>
+            <Route>
+              <NotFoundPage />
+            </Route>
           </Switch>
         </>
       )}

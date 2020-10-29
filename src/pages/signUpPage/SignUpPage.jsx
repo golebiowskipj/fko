@@ -69,7 +69,6 @@ export const SignUpPage = () => {
         } else if (error.code === apiCodes.PASSWORD_TOO_WEAK) {
           apiMessageHandler(apiLabels.passwordToWeak, 3000);
         }
-        console.log(error);
       });
   };
 

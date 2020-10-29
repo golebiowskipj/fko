@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   background-color: ${({ theme }) => theme.white};
   width: 300px;
   height: 50px;

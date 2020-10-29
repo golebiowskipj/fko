@@ -14,6 +14,10 @@ export const GlobalStyle = createGlobalStyle`
         font-size: ${theme.fontM};
         color: ${theme.secondary};
         overflow-x: hidden;
-        padding-bottom: 30px;
+    }
+
+    #root {
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
     }
 `;

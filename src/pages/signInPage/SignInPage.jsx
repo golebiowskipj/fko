@@ -53,7 +53,6 @@ export const SignInPage = () => {
         } else if (error.code === apiCodes.WRONG_PASSWORD) {
           apiMessageHandler(apiLabels.wrongPassword, 3000);
         }
-        console.log(error);
       });
   };
 
