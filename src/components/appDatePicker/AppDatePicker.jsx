@@ -2,17 +2,20 @@ import React, { useContext } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { AppPickerButton } from "../appPickerButton";
 import { AppPickerHeader } from "../appPickerHeader";
+import { CalendarIcon } from "../calendarIcon";
 
 import { AppDataContext } from "../../contexts/appDataContext";
 
 import { addDays, getTodaysMidnight } from "../../helpers/helpers";
 
-import { Wrapper } from "./styled";
+import { Button, Wrapper } from "./styled";
 
 const CustomDateInput = ({ onClick, value }) => (
-  <AppPickerButton onClick={onClick}>{value}</AppPickerButton>
+  <Button onClick={onClick}>
+    <span>{value}</span>
+    <CalendarIcon />
+  </Button>
 );
 
 const MIN_DATE = getTodaysMidnight();

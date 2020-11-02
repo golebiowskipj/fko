@@ -1,0 +1,1 @@
+export { BeltIcon } from "./BeltIcon";

@@ -12,7 +12,7 @@ import { SignInSignUpTemplate } from "../../templates/signInSignUpTemplate";
 import { FirebaseContext } from "../../firebase";
 
 import * as apiCodes from "../../configs/apiCodes";
-import { HOME, VERIFY_EMAIL } from "../../configs/routes";
+import { VERIFY_EMAIL } from "../../configs/routes";
 import * as ROLES from "../../configs/roles";
 import { labels, apiLabels, validationLabels } from "../../configs/labels";
 

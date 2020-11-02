@@ -1,0 +1,1 @@
+export { PunchingBagIcon } from "./PunchingBagIcon";

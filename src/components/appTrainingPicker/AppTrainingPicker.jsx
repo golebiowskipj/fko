@@ -25,6 +25,7 @@ export const AppTrainingPicker = ({ headerLabel }) => {
                 <TrainingButton
                   isActive={selectedTraining.value === training.value}
                   trainingName={training.name}
+                  trainingValue={training.value}
                   onClick={() => handleSelectTraining(training)}
                 />
               </ListItem>

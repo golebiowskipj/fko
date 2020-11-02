@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
+import { rgba } from "polished";
 
 const activeState = css`
-  background: ${({ theme }) => theme.secondary};
-  color: ${({ theme }) => theme.white};
+  background: ${({ theme }) => rgba(theme.secondary, 0.1)};
 `;
 
 export const AppPickerButton = styled.button`
@@ -12,6 +12,24 @@ export const AppPickerButton = styled.button`
   padding: 5px 10px;
   cursor: pointer;
 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+
+  width: 100%;
+
+  & > span {
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+
+  & > svg {
+    margin: 0;
+    width: 40px;
+    height: auto;
+  }
+
   &:focus {
     outline: none;
     border-width: 2px;
@@ -19,4 +37,8 @@ export const AppPickerButton = styled.button`
   }
 
   ${(props) => (props.isActive ? activeState : null)}
+
+  @media(min-width: ${({ theme }) => theme.mobileBP} ) {
+    width: auto;
+  }
 `;

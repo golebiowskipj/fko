@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { rgba } from "polished";
 import { Link } from "react-router-dom";
 
 export const LinkStyled = styled(Link)`
@@ -6,28 +7,23 @@ export const LinkStyled = styled(Link)`
   color: ${({ theme }) => theme.secondary};
 `;
 
-export const Wrapper = styled.section`
+export const LogoWrapper = styled.div`
+  background-color: ${({ theme }) => rgba(theme.primary, 0.8)};
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  padding: 0 10px;
-  margin: 30px auto;
-
-  @media (min-width: ${({ theme }) => theme.mobileBP}) {
-    max-width: 90vw;
-    flex-direction: row;
-  }
+  padding: 20px;
 `;
 
-export const WrapperColLeft = styled.div``;
-
-export const WrapperColRight = styled.div`
-  padding: 0;
-  margin-top: 30px;
+export const RightWrapper = styled.div`
+  background-color: ${({ theme }) => theme.white};
+  width: 100%;
+  height: 100%;
+  padding: 20px 10px;
 
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
-    padding: 30px 50px;
-    margin-top: 0;
+    padding: 40px;
   }
 `;

@@ -7,7 +7,7 @@ import { AppFormField } from "../../components/appFormField";
 import { SubmitButton } from "../../components/submitButton";
 
 import { FirebaseContext } from "../../firebase";
-import { HOME, SIGN_UP, VERIFY_EMAIL } from "../../configs/routes";
+import { SIGN_UP } from "../../configs/routes";
 import { labels, apiLabels, validationLabels } from "../../configs/labels";
 import * as apiCodes from "../../configs/apiCodes";
 

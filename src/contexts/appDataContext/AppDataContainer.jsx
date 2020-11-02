@@ -13,7 +13,7 @@ import {
   setUpInAppUserData,
 } from "../../helpers/helpers";
 import { ADMIN } from "../../configs/roles";
-import { SIGN_IN, VERIFY_EMAIL } from "../../configs/routes";
+import { SIGN_IN, LANDING } from "../../configs/routes";
 
 const initDate = getTodaysMidnight();
 
@@ -81,7 +81,7 @@ export const AppDataContainer = ({ children }) => {
           setUserData(null);
           setIsAdmin(false);
           setIsLoading(false);
-          history.push(SIGN_IN);
+          history.push(LANDING);
         }
       });
     };

@@ -24,7 +24,6 @@ export const LinkStyled = styled(Link)`
 export const NavWrapper = styled.nav`
   width: 100%;
   background-color: ${({ theme }) => theme.white};
-  border-bottom: 2px solid ${({ theme }) => theme.secondary};
   display: flex;
   align-items: center;
   justify-content: flex-end;

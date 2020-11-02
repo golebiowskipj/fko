@@ -9,6 +9,7 @@ import { MyReservationsPage } from "./pages/myReservationsPage";
 import { NotFoundPage } from "./pages/notFoundPage";
 import { SignUpPage } from "./pages/signUpPage";
 import { SignInPage } from "./pages/signInPage";
+import { VerifyEmailPage } from "./pages/verifyEmailPage";
 
 import { AppLoader } from "./components/appLoader";
 import { Navigation } from "./components/navigation";
@@ -76,7 +77,7 @@ function App() {
               <AdminPage />
             </ProtectedRoute>
             <Route exact path={ROUTES.VERIFY_EMAIL}>
-              <p>zweryfikuj email</p>
+              <VerifyEmailPage />
             </Route>
             <Route>
               <NotFoundPage />
