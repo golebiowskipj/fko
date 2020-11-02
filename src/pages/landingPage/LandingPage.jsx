@@ -20,21 +20,24 @@ const Left = () => (
   </LogoWrapper>
 );
 
-const Right = ({ userData }) => (
+const Right = ({ display }) => (
   <RightWrapper>
     <AppDatePicker headerLabel={labels.selectTrainingDay} />
     <AppTrainingPicker headerLabel={labels.selectTraining} />
     <CounterDisplay label={labels.availableSpots} />
-    {!userData && (
+    {display && (
       <LinkStyled to={SIGN_IN}>{labels.signInToReservSpot}</LinkStyled>
     )}
   </RightWrapper>
 );
 
 export const LandingPage = () => {
-  const { userData } = useContext(AppDataContext);
+  const { trainings, userData } = useContext(AppDataContext);
 
   return (
-    <MainTemplate Left={Left} Right={() => <Right userData={userData} />} />
+    <MainTemplate
+      Left={Left}
+      Right={() => <Right display={trainings.length > 0 && !userData} />}
+    />
   );
 };
