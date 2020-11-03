@@ -58,3 +58,4 @@ In order to deploy to gh-pages run `npm run deploy`
 
 - ~~firebase security~~
 - ~~trainings should have id like new Date().setHour(18.0.0.0)~~
+- optimize rerendering of components - e.g SignedUsersList
