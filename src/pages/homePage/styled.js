@@ -1,4 +1,26 @@
 import styled from "styled-components";
+import { rgba } from "polished";
+export const LeftWrapper = styled.div`
+  width: 100%;
+  background-color: ${({ theme }) => theme.white};
+  padding: 20px 10px;
+
+  @media (min-width: ${({ theme }) => theme.mobileBP}) {
+    padding: 40px;
+  }
+`;
+
+export const RightWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: ${({ theme }) => rgba(theme.primary, 0.8)};
+
+  padding: 20px 10px;
+`;
 
 export const Wrapper = styled.section`
   display: flex;
@@ -10,19 +32,5 @@ export const Wrapper = styled.section`
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
     max-width: 90vw;
     flex-direction: row;
-  }
-`;
-
-export const WrapperColLeft = styled.div``;
-
-export const WrapperColRight = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 30px;
-  padding: 0;
-
-  @media (min-width: ${({ theme }) => theme.mobileBP}) {
-    margin-top: 0;
-    padding: 0 30px;
   }
 `;

@@ -4,13 +4,13 @@ import {
   IoIosCalendar,
   IoIosHome,
   IoIosLogOut,
+  IoIosPeople,
 } from "react-icons/io";
 
 import { withSignOut } from "../withSignOut/withSignOut";
 import { AppDataContext } from "../../contexts/appDataContext";
 
 import * as ROUTES from "../../configs/routes";
-import { labels } from "../../configs/labels";
 
 import { LinkStyled, NavWrapper, NavList, SignOutButtonStyled } from "./styled";
 
@@ -23,16 +23,13 @@ const AuthNav = (isAdmin) => (
         <IoIosCalendar />
       </LinkStyled>
     </li>
-    {/* <li>
-      <LinkStyled to={ROUTES.MY_RESERVATIONS}>
-        {labels.myReservations}
-      </LinkStyled>
-    </li> */}
-    {/* {isAdmin ? (
+    {isAdmin ? (
       <li>
-        <LinkStyled to={ROUTES.ADMIN}>{labels.adminPanel}</LinkStyled>
+        <LinkStyled to={ROUTES.ADMIN}>
+          <IoIosPeople />
+        </LinkStyled>
       </li>
-    ) : null} */}
+    ) : null}
     <li>
       <SignOutButton>
         <IoIosLogOut />

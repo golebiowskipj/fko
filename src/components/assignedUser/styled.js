@@ -4,14 +4,21 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid ${({ theme }) => theme.secondary};
 `;
 
 export const Button = styled.button`
-  background-color: ${({ theme }) => theme.white};
-  border: 1px solid ${({ theme }) => theme.secondary};
   color: ${({ theme }) => theme.secondary};
-  padding: 5px;
-  margin-left: 10px;
-
+  border: none;
+  background-color: transparent;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 `;

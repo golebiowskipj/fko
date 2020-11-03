@@ -12,7 +12,9 @@ import { FirebaseContext } from "../../firebase";
 
 import { labels } from "../../configs/labels";
 
-import { Wrapper, WrapperColLeft, WrapperColRight } from "./styled";
+import { LeftWrapper, RightWrapper } from "./styled";
+
+import { MainTemplate } from "../../templates/mainTemplate";
 
 export const HomePage = () => {
   const [apiResponseMessage, setApiResponseMessage] = useState(null);
@@ -56,27 +58,37 @@ export const HomePage = () => {
     apiMessageHandler(response.message, 3000);
   };
 
-  return (
-    <Wrapper>
-      <WrapperColLeft>
-        <AppDatePicker headerLabel={labels.selectTrainingDay} />
-        <AppTrainingPicker headerLabel={labels.selectTraining} />
-        <CounterDisplay label={labels.availableSpots} />
-        {trainings.length > 0 && (
-          <SignToTrainingButton
-            label="Zapisz mnie"
-            onClick={reserveTrainingSpot}
-          />
-        )}
-      </WrapperColLeft>
-      <WrapperColRight>
-        <SignedUsersList
-          handleSignOutFromTraining={handleSignOutFromTraining}
+  const Left = () => (
+    <LeftWrapper>
+      <AppDatePicker headerLabel={labels.selectTrainingDay} />
+      <AppTrainingPicker headerLabel={labels.selectTraining} />
+      <CounterDisplay label={labels.availableSpots} />
+      {trainings.length > 0 && (
+        <SignToTrainingButton
+          label="Zapisz mnie"
+          onClick={reserveTrainingSpot}
         />
-      </WrapperColRight>
+      )}
+    </LeftWrapper>
+  );
+
+  const Right = () => (
+    <RightWrapper>
+      <SignedUsersList handleSignOutFromTraining={handleSignOutFromTraining} />
+    </RightWrapper>
+  );
+
+  return (
+    <>
+      <MainTemplate
+        Left={Left}
+        Right={Right}
+        leftWidth="60%"
+        rightWidth="40%"
+      />
       <ApiMessenger isVisible={!!apiResponseMessage}>
         {apiResponseMessage}
       </ApiMessenger>
-    </Wrapper>
+    </>
   );
 };

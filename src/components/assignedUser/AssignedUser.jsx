@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 import { AppDataContext } from "../../contexts/appDataContext";
 
@@ -13,7 +14,9 @@ export const AssignedUser = ({ handleSignOutFromTraining, user }) => {
     <Wrapper>
       {user.userName}
       {userData && user.uid === userData.uid ? (
-        <Button onClick={handleSignOutFromTraining}>{labels.freeSpot}</Button>
+        <Button onClick={handleSignOutFromTraining}>
+          <IoIosRemoveCircleOutline />
+        </Button>
       ) : null}
     </Wrapper>
   );

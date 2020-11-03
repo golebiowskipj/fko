@@ -5,7 +5,6 @@ import { ThemeProvider } from "styled-components";
 import { AdminPage } from "./pages/adminPage";
 import { HomePage } from "./pages/homePage";
 import { LandingPage } from "./pages/landingPage";
-import { MyReservationsPage } from "./pages/myReservationsPage";
 import { NotFoundPage } from "./pages/notFoundPage";
 import { SignUpPage } from "./pages/signUpPage";
 import { SignInPage } from "./pages/signInPage";
@@ -65,9 +64,6 @@ function App() {
             <ProtectedRoute exact path={ROUTES.HOME}>
               <HomePage />
             </ProtectedRoute>
-            {/* <ProtectedRoute path={ROUTES.MY_RESERVATIONS}>
-              <MyReservationsPage />
-            </ProtectedRoute> */}
             <ProtectedRoute
               exact
               path={ROUTES.ADMIN}
