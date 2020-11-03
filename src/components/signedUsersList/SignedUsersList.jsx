@@ -15,6 +15,7 @@ import { List, ListItem } from "./styled";
 
 export const SignedUsersList = ({ handleSignOutFromTraining }) => {
   const [reservations, setReservations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [title, setTitle] = useState("");
   const firebaseContext = useContext(FirebaseContext);
   const { selectedDate, selectedTraining, trainings, userData } = useContext(
@@ -32,6 +33,7 @@ export const SignedUsersList = ({ handleSignOutFromTraining }) => {
       );
       if (!isCanceled) {
         setReservations(reservations);
+        setIsLoading(false);
       }
     };
 
@@ -58,7 +60,9 @@ export const SignedUsersList = ({ handleSignOutFromTraining }) => {
         </p>
         <List>
           {reservations.length === 0
-            ? labels.noAssignmentsYet
+            ? isLoading
+              ? null
+              : labels.noAssignmentsYet
             : reservations.map((reservation) => (
                 <ListItem key={reservation.email}>
                   <AssignedUser

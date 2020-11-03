@@ -1,7 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import { AppDatePicker } from "../../components/appDatePicker";
-import { ApiMessenger } from "../../components/apiMessenger/ApiMessanger";
 import { AppTrainingPicker } from "../../components/appTrainingPicker";
 import { SignToTrainingButton } from "../../components/signToTrainingButton";
 import { CounterDisplay } from "../../components/counterDisplay";
@@ -17,7 +16,6 @@ import { LeftWrapper, RightWrapper } from "./styled";
 import { MainTemplate } from "../../templates/mainTemplate";
 
 export const HomePage = () => {
-  const [apiResponseMessage, setApiResponseMessage] = useState(null);
   const firebaseContext = useContext(FirebaseContext);
   const {
     refreshUserData,
@@ -27,13 +25,6 @@ export const HomePage = () => {
     userData,
   } = useContext(AppDataContext);
 
-  const apiMessageHandler = (message, ms) => {
-    setApiResponseMessage(message);
-    setTimeout(() => {
-      setApiResponseMessage(null);
-    }, ms);
-  };
-
   const reserveTrainingSpot = async () => {
     const response = await firebaseContext.reserveTrainingSpot(
       selectedDate,
@@ -42,8 +33,6 @@ export const HomePage = () => {
     );
 
     refreshUserData();
-
-    apiMessageHandler(response.message, 3000);
   };
 
   const handleSignOutFromTraining = async () => {
@@ -54,8 +43,6 @@ export const HomePage = () => {
     );
 
     refreshUserData();
-
-    apiMessageHandler(response.message, 3000);
   };
 
   const Left = () => (
@@ -79,16 +66,6 @@ export const HomePage = () => {
   );
 
   return (
-    <>
-      <MainTemplate
-        Left={Left}
-        Right={Right}
-        leftWidth="60%"
-        rightWidth="40%"
-      />
-      <ApiMessenger isVisible={!!apiResponseMessage}>
-        {apiResponseMessage}
-      </ApiMessenger>
-    </>
+    <MainTemplate Left={Left} Right={Right} leftWidth="60%" rightWidth="40%" />
   );
 };
