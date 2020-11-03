@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 
 const navLink = css`
   color: ${({ theme }) => theme.secondary};
-  font-size: ${({ theme }) => theme.fontM};
-  padding: 10px;
+  font-size: 32px;
+  /* padding: 10px; */
   margin-left: 10px;
   text-decoration: none;
-
-  &:first-child {
-    margin-left: 0;
-  }
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
-    font-size: ${({ theme }) => theme.fontL};
+    font-size: 24px;
   }
 `;
 
@@ -27,7 +27,7 @@ export const NavWrapper = styled.nav`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 20px 10px;
+  padding: 0 10px;
 `;
 
 export const NavList = styled.ul`

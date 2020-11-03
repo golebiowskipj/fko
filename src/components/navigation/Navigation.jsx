@@ -1,4 +1,10 @@
 import React, { useContext } from "react";
+import {
+  IoIosLogIn,
+  IoIosCalendar,
+  IoIosHome,
+  IoIosLogOut,
+} from "react-icons/io";
 
 import { withSignOut } from "../withSignOut/withSignOut";
 import { AppDataContext } from "../../contexts/appDataContext";
@@ -13,20 +19,24 @@ const SignOutButton = withSignOut(SignOutButtonStyled);
 const AuthNav = (isAdmin) => (
   <>
     <li>
-      <LinkStyled to={ROUTES.HOME}>{labels.reserve}</LinkStyled>
+      <LinkStyled to={ROUTES.HOME}>
+        <IoIosCalendar />
+      </LinkStyled>
     </li>
     {/* <li>
       <LinkStyled to={ROUTES.MY_RESERVATIONS}>
         {labels.myReservations}
       </LinkStyled>
     </li> */}
-    {isAdmin ? (
+    {/* {isAdmin ? (
       <li>
         <LinkStyled to={ROUTES.ADMIN}>{labels.adminPanel}</LinkStyled>
       </li>
-    ) : null}
+    ) : null} */}
     <li>
-      <SignOutButton>{labels.signOut}</SignOutButton>
+      <SignOutButton>
+        <IoIosLogOut />
+      </SignOutButton>
     </li>
   </>
 );
@@ -34,10 +44,14 @@ const AuthNav = (isAdmin) => (
 const NoAuthNav = (
   <>
     <li>
-      <LinkStyled to={ROUTES.LANDING}>{labels.homePage}</LinkStyled>
+      <LinkStyled to={ROUTES.LANDING}>
+        <IoIosHome />
+      </LinkStyled>
     </li>
     <li>
-      <LinkStyled to={ROUTES.SIGN_IN}>{labels.signIn}</LinkStyled>
+      <LinkStyled to={ROUTES.SIGN_IN}>
+        <IoIosLogIn />
+      </LinkStyled>
     </li>
   </>
 );

@@ -8,7 +8,6 @@ export const List = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
 
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
     flex-direction: row;
@@ -17,6 +16,8 @@ export const List = styled.ul`
 
 export const ListItem = styled.li`
   margin-top: 10px;
+  display: flex;
+  flex: 1;
 
   @media (min-width: ${({ theme }) => theme.mobileBP}) {
     margin-top: 10px;

@@ -15,7 +15,8 @@ export const AppPickerButton = styled.button`
   display: flex;
   align-items: center;
   flex-direction: column;
-  flex-grow: 1;
+  justify-content: space-between;
+  flex: 1;
 
   width: 100%;
 

@@ -1,3 +1,3 @@
 import React from "react";
 
-export const VerifyEmailPage = () => <>Aga uczy się kodzić</>;
+export const VerifyEmailPage = () => <>Potwierdz swój email</>;
