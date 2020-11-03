@@ -27,6 +27,7 @@ export const labels = {
 
 export const apiLabels = {
   alreadyAssignedToThatTraining: "Jesteś już zapisany/a na ten trening",
+  checkEmail: "Sprawdź email",
   didntFreeSpot: "Nie udało się wypisać z treningu",
   didntReserveSpot: "Nie udało się zapisać na ten trening",
   noSpotsLeftOnThatTraining: "Nie ma już wolnych miejsc na tym treningu",
